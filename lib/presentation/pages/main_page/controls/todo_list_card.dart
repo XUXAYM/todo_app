@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../domain/todo/todo_importance.dart';
+import '../../../../domain/todo/models/todo_importance.dart';
 import 'todo_list_tile.dart';
 
 class TodoListCard extends StatelessWidget {

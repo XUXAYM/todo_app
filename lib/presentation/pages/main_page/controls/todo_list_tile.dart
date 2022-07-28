@@ -3,8 +3,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../domain/todo/models/todo_importance.dart';
 import '../../../services/theming/theme_extension.dart';
-import '../../../../domain/todo/todo_importance.dart';
 
 class TodoListTile extends StatelessWidget {
   final TodoImportance importance;
