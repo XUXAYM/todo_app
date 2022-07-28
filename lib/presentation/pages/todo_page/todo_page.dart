@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class TaskPage extends StatelessWidget {
-  const TaskPage({super.key});
+class TodoPage extends StatelessWidget {
+  const TodoPage({super.key});
 
   @override
   Widget build(BuildContext context) {

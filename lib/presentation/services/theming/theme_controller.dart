@@ -30,6 +30,13 @@ class ThemeController {
         floatingActionButtonTheme:
             _fabTheme.copyWith(backgroundColor: palette.colorBlue),
         cardTheme: _baseCardTheme.copyWith(color: palette.backSecondary),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            textStyle: subhead,
+            onPrimary: palette.backPrimary,
+            primary: palette.colorBlue,
+          ),
+        ),
         textTheme: TextTheme(
           headline5: largeTitle.copyWith(color: palette.labelPrimary),
           headline6: title.copyWith(color: palette.labelPrimary),

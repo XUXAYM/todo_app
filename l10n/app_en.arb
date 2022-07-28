@@ -1,4 +1,6 @@
 {
+    "back": "Back",
     "completed": "Completed",
-    "myTodos": "My todos"
+    "myTodos": "My todos",
+    "pageNotFound": "Page not found"
 }
