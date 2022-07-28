@@ -55,9 +55,9 @@ class ThemeController {
   );
 
   static const _baseListTileTheme = ListTileThemeData(
-    contentPadding: EdgeInsets.symmetric(horizontal: 14.0),
+    contentPadding: EdgeInsets.only(left: 4.0),
     minVerticalPadding: 12.0,
-    horizontalTitleGap: 14.0,
+    horizontalTitleGap: 0.0,
     minLeadingWidth: 0.0,
   );
 }
