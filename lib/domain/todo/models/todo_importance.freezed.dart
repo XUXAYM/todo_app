@@ -14,6 +14,21 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
+TodoImportance _$TodoImportanceFromJson(Map<String, dynamic> json) {
+  switch (json['importance']) {
+    case 'low':
+      return _Low.fromJson(json);
+    case 'basic':
+      return _Normal.fromJson(json);
+    case 'important':
+      return _High.fromJson(json);
+
+    default:
+      throw CheckedFromJsonException(json, 'importance', 'TodoImportance',
+          'Invalid union type "${json['importance']}"!');
+  }
+}
+
 /// @nodoc
 mixin _$TodoImportance {
   @optionalTypeArgs
@@ -60,6 +75,7 @@ mixin _$TodoImportance {
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -96,9 +112,14 @@ class __$$_LowCopyWithImpl<$Res> extends _$TodoImportanceCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$_Low implements _Low {
-  const _$_Low();
+  const _$_Low({final String? $type}) : $type = $type ?? 'low';
+
+  factory _$_Low.fromJson(Map<String, dynamic> json) => _$$_LowFromJson(json);
+
+  @JsonKey(name: 'importance')
+  final String $type;
 
   @override
   String toString() {
@@ -111,6 +132,7 @@ class _$_Low implements _Low {
         (other.runtimeType == runtimeType && other is _$_Low);
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => runtimeType.hashCode;
 
@@ -181,10 +203,19 @@ class _$_Low implements _Low {
     }
     return orElse();
   }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_LowToJson(
+      this,
+    );
+  }
 }
 
 abstract class _Low implements TodoImportance {
   const factory _Low() = _$_Low;
+
+  factory _Low.fromJson(Map<String, dynamic> json) = _$_Low.fromJson;
 }
 
 /// @nodoc
@@ -204,9 +235,15 @@ class __$$_NormalCopyWithImpl<$Res> extends _$TodoImportanceCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$_Normal implements _Normal {
-  const _$_Normal();
+  const _$_Normal({final String? $type}) : $type = $type ?? 'basic';
+
+  factory _$_Normal.fromJson(Map<String, dynamic> json) =>
+      _$$_NormalFromJson(json);
+
+  @JsonKey(name: 'importance')
+  final String $type;
 
   @override
   String toString() {
@@ -219,6 +256,7 @@ class _$_Normal implements _Normal {
         (other.runtimeType == runtimeType && other is _$_Normal);
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => runtimeType.hashCode;
 
@@ -289,10 +327,19 @@ class _$_Normal implements _Normal {
     }
     return orElse();
   }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_NormalToJson(
+      this,
+    );
+  }
 }
 
 abstract class _Normal implements TodoImportance {
   const factory _Normal() = _$_Normal;
+
+  factory _Normal.fromJson(Map<String, dynamic> json) = _$_Normal.fromJson;
 }
 
 /// @nodoc
@@ -312,9 +359,14 @@ class __$$_HighCopyWithImpl<$Res> extends _$TodoImportanceCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$_High implements _High {
-  const _$_High();
+  const _$_High({final String? $type}) : $type = $type ?? 'important';
+
+  factory _$_High.fromJson(Map<String, dynamic> json) => _$$_HighFromJson(json);
+
+  @JsonKey(name: 'importance')
+  final String $type;
 
   @override
   String toString() {
@@ -327,6 +379,7 @@ class _$_High implements _High {
         (other.runtimeType == runtimeType && other is _$_High);
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => runtimeType.hashCode;
 
@@ -397,8 +450,17 @@ class _$_High implements _High {
     }
     return orElse();
   }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_HighToJson(
+      this,
+    );
+  }
 }
 
 abstract class _High implements TodoImportance {
   const factory _High() = _$_High;
+
+  factory _High.fromJson(Map<String, dynamic> json) = _$_High.fromJson;
 }

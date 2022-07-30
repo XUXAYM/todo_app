@@ -14,16 +14,26 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
+Todo _$TodoFromJson(Map<String, dynamic> json) {
+  return _Todo.fromJson(json);
+}
+
 /// @nodoc
 mixin _$Todo {
   String get id => throw _privateConstructorUsedError;
   String get text => throw _privateConstructorUsedError;
   TodoImportance get importance => throw _privateConstructorUsedError;
   bool get done => throw _privateConstructorUsedError;
+  @TimestampOrNullConverter()
   DateTime? get deadline => throw _privateConstructorUsedError;
+  @JsonKey(name: 'created_at')
+  @TimestampOrNullConverter()
   DateTime? get createdAt => throw _privateConstructorUsedError;
+  @JsonKey(name: 'changed_at')
+  @TimestampOrNullConverter()
   DateTime? get changedAt => throw _privateConstructorUsedError;
 
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $TodoCopyWith<Todo> get copyWith => throw _privateConstructorUsedError;
 }
@@ -37,9 +47,14 @@ abstract class $TodoCopyWith<$Res> {
       String text,
       TodoImportance importance,
       bool done,
-      DateTime? deadline,
-      DateTime? createdAt,
-      DateTime? changedAt});
+      @TimestampOrNullConverter()
+          DateTime? deadline,
+      @JsonKey(name: 'created_at')
+      @TimestampOrNullConverter()
+          DateTime? createdAt,
+      @JsonKey(name: 'changed_at')
+      @TimestampOrNullConverter()
+          DateTime? changedAt});
 
   $TodoImportanceCopyWith<$Res> get importance;
 }
@@ -112,9 +127,14 @@ abstract class _$$_TodoCopyWith<$Res> implements $TodoCopyWith<$Res> {
       String text,
       TodoImportance importance,
       bool done,
-      DateTime? deadline,
-      DateTime? createdAt,
-      DateTime? changedAt});
+      @TimestampOrNullConverter()
+          DateTime? deadline,
+      @JsonKey(name: 'created_at')
+      @TimestampOrNullConverter()
+          DateTime? createdAt,
+      @JsonKey(name: 'changed_at')
+      @TimestampOrNullConverter()
+          DateTime? changedAt});
 
   @override
   $TodoImportanceCopyWith<$Res> get importance;
@@ -173,16 +193,18 @@ class __$$_TodoCopyWithImpl<$Res> extends _$TodoCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$_Todo implements _Todo {
   const _$_Todo(
       {required this.id,
       required this.text,
       required this.importance,
       required this.done,
-      this.deadline,
-      this.createdAt,
-      this.changedAt});
+      @TimestampOrNullConverter() this.deadline,
+      @JsonKey(name: 'created_at') @TimestampOrNullConverter() this.createdAt,
+      @JsonKey(name: 'changed_at') @TimestampOrNullConverter() this.changedAt});
+
+  factory _$_Todo.fromJson(Map<String, dynamic> json) => _$$_TodoFromJson(json);
 
   @override
   final String id;
@@ -193,10 +215,15 @@ class _$_Todo implements _Todo {
   @override
   final bool done;
   @override
+  @TimestampOrNullConverter()
   final DateTime? deadline;
   @override
+  @JsonKey(name: 'created_at')
+  @TimestampOrNullConverter()
   final DateTime? createdAt;
   @override
+  @JsonKey(name: 'changed_at')
+  @TimestampOrNullConverter()
   final DateTime? changedAt;
 
   @override
@@ -219,6 +246,7 @@ class _$_Todo implements _Todo {
             const DeepCollectionEquality().equals(other.changedAt, changedAt));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -234,6 +262,13 @@ class _$_Todo implements _Todo {
   @override
   _$$_TodoCopyWith<_$_Todo> get copyWith =>
       __$$_TodoCopyWithImpl<_$_Todo>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_TodoToJson(
+      this,
+    );
+  }
 }
 
 abstract class _Todo implements Todo {
@@ -242,9 +277,16 @@ abstract class _Todo implements Todo {
       required final String text,
       required final TodoImportance importance,
       required final bool done,
-      final DateTime? deadline,
-      final DateTime? createdAt,
-      final DateTime? changedAt}) = _$_Todo;
+      @TimestampOrNullConverter()
+          final DateTime? deadline,
+      @JsonKey(name: 'created_at')
+      @TimestampOrNullConverter()
+          final DateTime? createdAt,
+      @JsonKey(name: 'changed_at')
+      @TimestampOrNullConverter()
+          final DateTime? changedAt}) = _$_Todo;
+
+  factory _Todo.fromJson(Map<String, dynamic> json) = _$_Todo.fromJson;
 
   @override
   String get id;
@@ -255,10 +297,15 @@ abstract class _Todo implements Todo {
   @override
   bool get done;
   @override
+  @TimestampOrNullConverter()
   DateTime? get deadline;
   @override
+  @JsonKey(name: 'created_at')
+  @TimestampOrNullConverter()
   DateTime? get createdAt;
   @override
+  @JsonKey(name: 'changed_at')
+  @TimestampOrNullConverter()
   DateTime? get changedAt;
   @override
   @JsonKey(ignore: true)

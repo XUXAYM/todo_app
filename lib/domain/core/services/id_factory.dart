@@ -5,5 +5,5 @@ class IdFactory {
 
   static const Uuid _uuid = Uuid();
 
-  static String generateId() => _uuid.v4();
+  static String generate() => _uuid.v4();
 }
