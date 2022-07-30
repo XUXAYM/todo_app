@@ -3,15 +3,11 @@ import 'models/todo_data.dart';
 abstract class ITodoLocalDataSource {
   Future<CollectionTodoData> getAll();
 
-  Future<CollectionTodoData> replaceAll(
-    CollectionTodoData todos,
-  );
+  Future<SingleTodoData> get(String todoId);
 
-  Future<SingleTodoData> create(SingleTodoData todo);
+  Future<void> add(SingleTodoData todoData);
 
-  Future<SingleTodoData> get(String id);
+  Future<void> update(SingleTodoData todoData);
 
-  Future<SingleTodoData> update(SingleTodoData todo);
-
-  Future<SingleTodoData> delete(String id);
+  Future<void> delete(SingleTodoData todoData);
 }

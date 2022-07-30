@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 import 'infrastructure/core/services/error_handler.dart';
 import 'injection.dart';
@@ -19,6 +20,8 @@ void main() => runZonedGuarded(
 Future<void> _initialize() async {
   WidgetsFlutterBinding.ensureInitialized();
   LoggerController.logger.info('Initial initialization');
+
+  await Hive.initFlutter();
 
   configureDependencies();
 

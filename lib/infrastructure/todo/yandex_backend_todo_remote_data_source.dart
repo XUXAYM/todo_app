@@ -115,9 +115,14 @@ class YandexBackendTodoRemoteDataSource implements ITodoRemoteDataSource {
       );
 
   @override
-  Future<SingleTodoData> delete(String id) => _exceptionMapper(
+  Future<SingleTodoData> delete(SingleTodoData todoData) => _exceptionMapper(
         () async {
-          final response = await _dio.delete('$_path/$id');
+          final response = await _dio.delete(
+            '$_path/${todoData.todo.id}',
+            options: Options(
+              headers: {_revisionHeader: todoData.revision},
+            ),
+          );
 
           if (response.data != null) {
             return TodoData.fromJson(response.data!) as SingleTodoData;

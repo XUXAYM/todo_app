@@ -13,5 +13,5 @@ abstract class ITodoRemoteDataSource {
 
   Future<SingleTodoData> update(SingleTodoData todoData);
 
-  Future<SingleTodoData> delete(String todoId);
+  Future<SingleTodoData> delete(SingleTodoData todoData);
 }
