@@ -1,9 +1,11 @@
 // ignore_for_file: unused_element
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../services/theming/theme_extension.dart';
+import '../../../../application/todo/todo_watcher/todo_watcher_bloc.dart';
 import '../../../services/s.dart';
+import '../../../services/theming/theme_extension.dart';
 
 class MainPageAppBar extends StatelessWidget {
   final int completedCount;
@@ -188,13 +190,21 @@ class _VisibilityIconButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return IconButton(
-      splashRadius: _iconSize,
-      constraints: BoxConstraints.tight(const Size.square(_iconSize)),
-      padding: EdgeInsets.zero,
-      color: Theme.of(context).paletteController!.colorBlue,
-      icon: const Icon(Icons.visibility),
-      onPressed: () {},
+    return BlocBuilder<TodoWatcherBloc, TodoWatcherState>(
+      builder: (context, state) {
+        return IconButton(
+          splashRadius: _iconSize,
+          constraints: BoxConstraints.tight(const Size.square(_iconSize)),
+          padding: EdgeInsets.zero,
+          color: Theme.of(context).paletteController!.colorBlue,
+          icon: Icon(
+            state.hideCompleted ? Icons.visibility_off : Icons.visibility,
+          ),
+          onPressed: () => context
+              .read<TodoWatcherBloc>()
+              .add(const TodoWatcherEvent.completedVisibilityChanged()),
+        );
+      },
     );
   }
 }

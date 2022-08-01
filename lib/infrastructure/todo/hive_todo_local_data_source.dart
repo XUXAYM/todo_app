@@ -2,51 +2,74 @@ import 'package:injectable/injectable.dart';
 
 import '../../domain/todo/exceptions/cached_exceptions.dart';
 import '../../domain/todo/i_todo_local_data_source.dart';
+import '../../domain/todo/models/todo.dart';
 import '../../domain/todo/models/todo_data.dart';
 import '../core/services/hive_box_controller.dart';
 
 @LazySingleton(as: ITodoLocalDataSource)
 class HiveTodoLocalDataSource implements ITodoLocalDataSource {
   static const String _revisionKey = 'revision';
+  static const String _isDirtyDataKey = 'isDirty';
+
+  @override
+  Stream<Todo?> watch() async* {
+    final todoBox = await HiveBoxController.getTodoBox();
+
+    yield* todoBox.watch().map((event) => event.value as Todo?);
+  }
+
+  @override
+  Future<int> getRevision() async {
+    final settingsBox = await HiveBoxController.getSettingsBox();
+    final revision = settingsBox.get(_revisionKey) as int?;
+
+    return revision ?? -1;
+  }
+
+  @override
+  Future<bool> isDurtyData() async {
+    final settingsBox = await HiveBoxController.getSettingsBox();
+    final isDirty = settingsBox.get(_isDirtyDataKey) as bool?;
+
+    return isDirty ?? false;
+  }
+
+  @override
+  Future<void> setIsDurtyData(bool value) async {
+    final settingsBox = await HiveBoxController.getSettingsBox();
+    await settingsBox.put(_isDirtyDataKey, value);
+  }
 
   @override
   Future<CollectionTodoData> getAll() async {
     final todoBox = await HiveBoxController.getTodoBox();
+    final revision = await getRevision();
+
+    return CollectionTodoData(todos: todoBox.values, revision: revision);
+  }
+
+  @override
+  Future<void> replaceAll(CollectionTodoData todoData) async {
+    final todoBox = await HiveBoxController.getTodoBox();
     final settingsBox = await HiveBoxController.getSettingsBox();
 
-    try {
-      final revision = settingsBox.get(_revisionKey) as int?;
+    await todoBox.clear();
 
-      if (revision != null) {
-        return CollectionTodoData(todos: todoBox.values, revision: revision);
-      } else {
-        return const CollectionTodoData(todos: [], revision: -1);
-      }
-    } finally {
-      await todoBox.close();
-    }
+    await todoBox.addAll(todoData.todos);
+    await settingsBox.put(_revisionKey, todoData.revision);
   }
 
   @override
   Future<SingleTodoData> get(String todoId) async {
     final todoBox = await HiveBoxController.getTodoBox();
-    final settingsBox = await HiveBoxController.getSettingsBox();
 
-    try {
-      final revision = settingsBox.get(_revisionKey) as int?;
+    final revision = await getRevision();
 
-      if (revision != null) {
-        final todo = todoBox.get(todoId);
+    final todo = todoBox.get(todoId);
 
-        if (todo == null) throw const NotFoundedException();
+    if (todo == null) throw const NotFoundedException();
 
-        return SingleTodoData(todo: todo, revision: revision);
-      } else {
-        throw const NoDataException();
-      }
-    } finally {
-      await todoBox.close();
-    }
+    return SingleTodoData(todo: todo, revision: revision);
   }
 
   @override
@@ -54,14 +77,10 @@ class HiveTodoLocalDataSource implements ITodoLocalDataSource {
     final todoBox = await HiveBoxController.getTodoBox();
     final settingsBox = await HiveBoxController.getSettingsBox();
 
-    try {
-      final todo = todoData.todo;
+    final todo = todoData.todo;
 
-      await todoBox.put(todo.id, todo);
-      await settingsBox.put(_revisionKey, todoData.revision);
-    } finally {
-      await todoBox.close();
-    }
+    await todoBox.put(todo.id, todo);
+    await settingsBox.put(_revisionKey, todoData.revision);
   }
 
   @override
@@ -72,11 +91,7 @@ class HiveTodoLocalDataSource implements ITodoLocalDataSource {
     final todoBox = await HiveBoxController.getTodoBox();
     final settingsBox = await HiveBoxController.getSettingsBox();
 
-    try {
-      await todoBox.delete(todoData.todo);
-      await settingsBox.put(_revisionKey, todoData.revision);
-    } finally {
-      await todoBox.close();
-    }
+    await todoBox.delete(todoData.todo.id);
+    await settingsBox.put(_revisionKey, todoData.revision);
   }
 }

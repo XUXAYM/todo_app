@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:injectable/injectable.dart';
 
 import 'palette_controller.dart';
@@ -42,7 +41,7 @@ class DarkPaletteController extends PaletteController {
   Color get colorGrayLight => const Color(0xFF48484A);
 
   @override
-  Color get colorGrayWhite => const Color(0xFFFFFFFF);
+  Color get colorWhite => const Color(0xFFFFFFFF);
 
   @override
   Color get backPrimary => const Color(0xFF161618);

@@ -14,7 +14,7 @@ abstract class PaletteController extends ThemeExtension<PaletteController> {
   Color get colorBlue;
   Color get colorGray;
   Color get colorGrayLight;
-  Color get colorGrayWhite;
+  Color get colorWhite;
   Color get backPrimary;
   Color get backSecondary;
   Color get backElevated;

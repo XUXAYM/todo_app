@@ -33,7 +33,10 @@ mixin _$TodoData {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(
-            @JsonKey(name: 'list') Iterable<Todo> todos, int revision)
+            @JsonSerializable(explicitToJson: true)
+            @JsonKey(name: 'list')
+                Iterable<Todo> todos,
+            int revision)
         collection,
     required TResult Function(@JsonKey(name: 'element') Todo todo, int revision)
         single,
@@ -41,14 +44,22 @@ mixin _$TodoData {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(@JsonKey(name: 'list') Iterable<Todo> todos, int revision)?
+    TResult Function(
+            @JsonSerializable(explicitToJson: true)
+            @JsonKey(name: 'list')
+                Iterable<Todo> todos,
+            int revision)?
         collection,
     TResult Function(@JsonKey(name: 'element') Todo todo, int revision)? single,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(@JsonKey(name: 'list') Iterable<Todo> todos, int revision)?
+    TResult Function(
+            @JsonSerializable(explicitToJson: true)
+            @JsonKey(name: 'list')
+                Iterable<Todo> todos,
+            int revision)?
         collection,
     TResult Function(@JsonKey(name: 'element') Todo todo, int revision)? single,
     required TResult orElse(),
@@ -114,7 +125,11 @@ abstract class _$$CollectionTodoDataCopyWith<$Res>
           $Res Function(_$CollectionTodoData) then) =
       __$$CollectionTodoDataCopyWithImpl<$Res>;
   @override
-  $Res call({@JsonKey(name: 'list') Iterable<Todo> todos, int revision});
+  $Res call(
+      {@JsonSerializable(explicitToJson: true)
+      @JsonKey(name: 'list')
+          Iterable<Todo> todos,
+      int revision});
 }
 
 /// @nodoc
@@ -150,7 +165,9 @@ class __$$CollectionTodoDataCopyWithImpl<$Res>
 @JsonSerializable()
 class _$CollectionTodoData implements CollectionTodoData {
   const _$CollectionTodoData(
-      {@JsonKey(name: 'list') required this.todos,
+      {@JsonSerializable(explicitToJson: true)
+      @JsonKey(name: 'list')
+          required this.todos,
       required this.revision,
       final String? $type})
       : $type = $type ?? 'collection';
@@ -159,6 +176,7 @@ class _$CollectionTodoData implements CollectionTodoData {
       _$$CollectionTodoDataFromJson(json);
 
   @override
+  @JsonSerializable(explicitToJson: true)
   @JsonKey(name: 'list')
   final Iterable<Todo> todos;
   @override
@@ -198,7 +216,10 @@ class _$CollectionTodoData implements CollectionTodoData {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(
-            @JsonKey(name: 'list') Iterable<Todo> todos, int revision)
+            @JsonSerializable(explicitToJson: true)
+            @JsonKey(name: 'list')
+                Iterable<Todo> todos,
+            int revision)
         collection,
     required TResult Function(@JsonKey(name: 'element') Todo todo, int revision)
         single,
@@ -209,7 +230,11 @@ class _$CollectionTodoData implements CollectionTodoData {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(@JsonKey(name: 'list') Iterable<Todo> todos, int revision)?
+    TResult Function(
+            @JsonSerializable(explicitToJson: true)
+            @JsonKey(name: 'list')
+                Iterable<Todo> todos,
+            int revision)?
         collection,
     TResult Function(@JsonKey(name: 'element') Todo todo, int revision)? single,
   }) {
@@ -219,7 +244,11 @@ class _$CollectionTodoData implements CollectionTodoData {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(@JsonKey(name: 'list') Iterable<Todo> todos, int revision)?
+    TResult Function(
+            @JsonSerializable(explicitToJson: true)
+            @JsonKey(name: 'list')
+                Iterable<Todo> todos,
+            int revision)?
         collection,
     TResult Function(@JsonKey(name: 'element') Todo todo, int revision)? single,
     required TResult orElse(),
@@ -271,12 +300,15 @@ class _$CollectionTodoData implements CollectionTodoData {
 
 abstract class CollectionTodoData implements TodoData {
   const factory CollectionTodoData(
-      {@JsonKey(name: 'list') required final Iterable<Todo> todos,
+      {@JsonSerializable(explicitToJson: true)
+      @JsonKey(name: 'list')
+          required final Iterable<Todo> todos,
       required final int revision}) = _$CollectionTodoData;
 
   factory CollectionTodoData.fromJson(Map<String, dynamic> json) =
       _$CollectionTodoData.fromJson;
 
+  @JsonSerializable(explicitToJson: true)
   @JsonKey(name: 'list')
   Iterable<Todo> get todos;
   @override
@@ -385,7 +417,10 @@ class _$SingleTodoData implements SingleTodoData {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(
-            @JsonKey(name: 'list') Iterable<Todo> todos, int revision)
+            @JsonSerializable(explicitToJson: true)
+            @JsonKey(name: 'list')
+                Iterable<Todo> todos,
+            int revision)
         collection,
     required TResult Function(@JsonKey(name: 'element') Todo todo, int revision)
         single,
@@ -396,7 +431,11 @@ class _$SingleTodoData implements SingleTodoData {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(@JsonKey(name: 'list') Iterable<Todo> todos, int revision)?
+    TResult Function(
+            @JsonSerializable(explicitToJson: true)
+            @JsonKey(name: 'list')
+                Iterable<Todo> todos,
+            int revision)?
         collection,
     TResult Function(@JsonKey(name: 'element') Todo todo, int revision)? single,
   }) {
@@ -406,7 +445,11 @@ class _$SingleTodoData implements SingleTodoData {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(@JsonKey(name: 'list') Iterable<Todo> todos, int revision)?
+    TResult Function(
+            @JsonSerializable(explicitToJson: true)
+            @JsonKey(name: 'list')
+                Iterable<Todo> todos,
+            int revision)?
         collection,
     TResult Function(@JsonKey(name: 'element') Todo todo, int revision)? single,
     required TResult orElse(),

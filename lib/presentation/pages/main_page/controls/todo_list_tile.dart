@@ -1,34 +1,44 @@
 // ignore_for_file: unused_element
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 
+import '../../../../application/todo/todo_watcher/todo_watcher_bloc.dart';
+import '../../../../domain/todo/models/todo.dart';
 import '../../../../domain/todo/models/todo_importance.dart';
+import '../../../services/theming/assets_controller.dart';
 import '../../../services/theming/theme_extension.dart';
 
 class TodoListTile extends StatelessWidget {
-  final TodoImportance importance;
-  final bool isDone;
-  final String title;
-  final String? subtitle;
+  final Todo todo;
 
   const TodoListTile({
     super.key,
-    this.subtitle,
-    this.importance = const TodoImportance.normal(),
-    required this.title,
-    required this.isDone,
+    required this.todo,
   });
-
-  static const double _sizeAddendum = 4.0;
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      leading: _TodoCheckbox(isDone: isDone, importance: importance),
-      trailing: const _EditTodoIconButton(),
-      title: _buildTitle(context),
-      subtitle: _buildSubtitle(context),
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SizedBox(width: 4.0),
+        _TodoCheckbox(todo: todo),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 14.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                _buildTitle(context),
+              ],
+            ),
+          ),
+        ),
+        const _EditTodoIconButton(),
+      ],
     );
   }
 
@@ -40,7 +50,7 @@ class TodoListTile extends StatelessWidget {
         style: _selectTitleTextStyle(context),
         children: [
           ..._buildLeadingWidget(context),
-          TextSpan(text: title),
+          TextSpan(text: todo.text),
         ],
       ),
     );
@@ -51,50 +61,56 @@ class TodoListTile extends StatelessWidget {
     final palette = theme.paletteController;
 
     return theme.textTheme.subtitle1?.copyWith(
-      color: isDone ? palette?.labelTertiary : palette?.labelPrimary,
-      decoration: isDone ? TextDecoration.lineThrough : null,
+      color: todo.done ? palette?.labelTertiary : palette?.labelPrimary,
+      decoration: todo.done ? TextDecoration.lineThrough : null,
     );
   }
 
   List<InlineSpan> _buildLeadingWidget(BuildContext context) {
-    double _calculateWidgetSize(ThemeData theme) {
-      return theme.textTheme.subtitle1!.fontSize! + _sizeAddendum;
+    switch (todo.importance) {
+      case TodoImportance.important:
+        return [
+          WidgetSpan(
+            alignment: PlaceholderAlignment.middle,
+            child: Padding(
+              padding: const EdgeInsets.only(right: 6.0),
+              child: SvgPicture.asset(
+                AssetsController.doubleExclamationMarkSVG,
+                color: Theme.of(context).paletteController?.colorRed,
+                width: 10,
+                height: 16,
+              ),
+            ),
+          ),
+        ];
+      case TodoImportance.low:
+        return [
+          WidgetSpan(
+            alignment: PlaceholderAlignment.middle,
+            child: Padding(
+              padding: const EdgeInsets.only(right: 4.5),
+              child: SvgPicture.asset(
+                AssetsController.downArrowSVG,
+                color: Theme.of(context).paletteController?.colorGray,
+                width: 11,
+                height: 14,
+              ),
+            ),
+          ),
+        ];
+      default:
+        return const [];
     }
-
-    final theme = Theme.of(context);
-    final palette = Theme.of(context).paletteController;
-
-    return importance.maybeMap(
-      high: (_) => [
-        TextSpan(
-          text: ' \u{203C} ',
-          style: theme.textTheme.subtitle1!.copyWith(
-            fontSize: _calculateWidgetSize(theme),
-            color: palette?.colorRed,
-          ),
-        ),
-      ],
-      low: (_) => [
-        WidgetSpan(
-          child: Icon(
-            CupertinoIcons.down_arrow,
-            size: _calculateWidgetSize(theme),
-            color: palette?.colorGray,
-          ),
-        ),
-      ],
-      orElse: () => const [],
-    );
   }
 
   Widget? _buildSubtitle(BuildContext context) {
-    if (subtitle == null) return null;
+    if (todo.deadline == null) return null;
 
     final theme = Theme.of(context);
     return Padding(
       padding: const EdgeInsets.only(top: 4.0),
       child: Text(
-        subtitle!,
+        todo.deadline!.toIso8601String(),
         style: theme.textTheme.bodyText2!
             .copyWith(color: theme.paletteController?.labelTertiary),
       ),
@@ -103,13 +119,11 @@ class TodoListTile extends StatelessWidget {
 }
 
 class _TodoCheckbox extends StatelessWidget {
-  final bool isDone;
-  final TodoImportance importance;
+  final Todo todo;
 
   const _TodoCheckbox({
     super.key,
-    required this.isDone,
-    required this.importance,
+    required this.todo,
   });
 
   static const double _splashOpacity = 0.1;
@@ -117,10 +131,12 @@ class _TodoCheckbox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Checkbox(
-      value: isDone,
+      value: todo.done,
       overlayColor: _selectOverlayColor(context),
       fillColor: _selectFillColor(context),
-      onChanged: (_) {},
+      onChanged: (_) => context
+          .read<TodoWatcherBloc>()
+          .add(TodoWatcherEvent.todoToggled(todo)),
     );
   }
 
@@ -137,10 +153,12 @@ class _TodoCheckbox extends StatelessWidget {
           if (states.contains(MaterialState.selected)) {
             return palette.colorGreen;
           } else {
-            return importance.maybeMap(
-              high: (_) => palette.colorRed,
-              orElse: () => palette.supportSeparator,
-            );
+            switch (todo.importance) {
+              case TodoImportance.important:
+                return palette.colorRed;
+              default:
+                return palette.supportSeparator;
+            }
           }
         },
       );
