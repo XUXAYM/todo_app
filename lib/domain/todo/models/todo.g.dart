@@ -23,7 +23,7 @@ class TodoAdapter extends TypeAdapter<Todo> {
       done: fields[3] as bool,
       createdAt: fields[5] as DateTime,
       changedAt: fields[6] as DateTime,
-      deadline: fields[4] as DateTime?,
+      deadline: fields[7] as DateTime?,
     );
   }
 
@@ -43,7 +43,7 @@ class TodoAdapter extends TypeAdapter<Todo> {
       ..write(obj.createdAt)
       ..writeByte(6)
       ..write(obj.changedAt)
-      ..writeByte(4)
+      ..writeByte(7)
       ..write(obj.deadline);
   }
 

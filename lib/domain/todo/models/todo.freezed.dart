@@ -36,7 +36,7 @@ mixin _$Todo {
   @JsonKey(name: 'changed_at')
   @TimestampConverter()
   DateTime get changedAt => throw _privateConstructorUsedError;
-  @HiveField(4)
+  @HiveField(7)
   @TimestampConverter()
   DateTime? get deadline => throw _privateConstructorUsedError;
 
@@ -66,7 +66,7 @@ abstract class $TodoCopyWith<$Res> {
       @JsonKey(name: 'changed_at')
       @TimestampConverter()
           DateTime changedAt,
-      @HiveField(4)
+      @HiveField(7)
       @TimestampConverter()
           DateTime? deadline});
 }
@@ -144,7 +144,7 @@ abstract class _$$_TodoCopyWith<$Res> implements $TodoCopyWith<$Res> {
       @JsonKey(name: 'changed_at')
       @TimestampConverter()
           DateTime changedAt,
-      @HiveField(4)
+      @HiveField(7)
       @TimestampConverter()
           DateTime? deadline});
 }
@@ -203,7 +203,7 @@ class __$$_TodoCopyWithImpl<$Res> extends _$TodoCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_Todo implements _Todo {
+class _$_Todo extends _Todo {
   const _$_Todo(
       {@HiveField(0)
           required this.id,
@@ -221,9 +221,10 @@ class _$_Todo implements _Todo {
       @JsonKey(name: 'changed_at')
       @TimestampConverter()
           required this.changedAt,
-      @HiveField(4)
+      @HiveField(7)
       @TimestampConverter()
-          this.deadline});
+          this.deadline})
+      : super._();
 
   factory _$_Todo.fromJson(Map<String, dynamic> json) => _$$_TodoFromJson(json);
 
@@ -250,7 +251,7 @@ class _$_Todo implements _Todo {
   @TimestampConverter()
   final DateTime changedAt;
   @override
-  @HiveField(4)
+  @HiveField(7)
   @TimestampConverter()
   final DateTime? deadline;
 
@@ -299,7 +300,7 @@ class _$_Todo implements _Todo {
   }
 }
 
-abstract class _Todo implements Todo {
+abstract class _Todo extends Todo {
   const factory _Todo(
       {@HiveField(0)
           required final String id,
@@ -317,9 +318,10 @@ abstract class _Todo implements Todo {
       @JsonKey(name: 'changed_at')
       @TimestampConverter()
           required final DateTime changedAt,
-      @HiveField(4)
+      @HiveField(7)
       @TimestampConverter()
           final DateTime? deadline}) = _$_Todo;
+  const _Todo._() : super._();
 
   factory _Todo.fromJson(Map<String, dynamic> json) = _$_Todo.fromJson;
 
@@ -346,7 +348,7 @@ abstract class _Todo implements Todo {
   @TimestampConverter()
   DateTime get changedAt;
   @override
-  @HiveField(4)
+  @HiveField(7)
   @TimestampConverter()
   DateTime? get deadline;
   @override

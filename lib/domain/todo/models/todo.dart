@@ -1,4 +1,4 @@
-// ignore_for_file: invalid_annotation_target
+// ignore_for_file: invalid_annotation_target, unused_element
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hive/hive.dart';
@@ -27,7 +27,7 @@ class Todo with _$Todo {
     @JsonKey(name: 'changed_at')
     @TimestampConverter()
         required DateTime changedAt,
-    @HiveField(4) @TimestampConverter() DateTime? deadline,
+    @HiveField(7) @TimestampConverter() DateTime? deadline,
   }) = _Todo;
 
   factory Todo.textOnly(String text) {
@@ -55,4 +55,8 @@ class Todo with _$Todo {
   }
 
   factory Todo.fromJson(Map<String, dynamic> json) => _$TodoFromJson(json);
+
+  const Todo._();
+
+  bool get isFilled => text.trim().isNotEmpty;
 }
