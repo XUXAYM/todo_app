@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import 'domain/todo/models/todo.dart';
-import 'domain/todo/models/todo_importance.dart';
 import 'infrastructure/core/services/error_handler.dart';
 import 'injection.dart';
 import 'presentation/app_widget.dart';

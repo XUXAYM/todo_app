@@ -800,6 +800,9 @@ abstract class _DeletePressed implements TodoFormEvent {
 mixin _$TodoFormState {
   Todo get todo => throw _privateConstructorUsedError;
   bool get isEditing => throw _privateConstructorUsedError;
+  bool get isLoading => throw _privateConstructorUsedError;
+  bool get isChanged => throw _privateConstructorUsedError;
+  bool get shouldPop => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $TodoFormStateCopyWith<TodoFormState> get copyWith =>
@@ -811,7 +814,12 @@ abstract class $TodoFormStateCopyWith<$Res> {
   factory $TodoFormStateCopyWith(
           TodoFormState value, $Res Function(TodoFormState) then) =
       _$TodoFormStateCopyWithImpl<$Res>;
-  $Res call({Todo todo, bool isEditing});
+  $Res call(
+      {Todo todo,
+      bool isEditing,
+      bool isLoading,
+      bool isChanged,
+      bool shouldPop});
 
   $TodoCopyWith<$Res> get todo;
 }
@@ -829,6 +837,9 @@ class _$TodoFormStateCopyWithImpl<$Res>
   $Res call({
     Object? todo = freezed,
     Object? isEditing = freezed,
+    Object? isLoading = freezed,
+    Object? isChanged = freezed,
+    Object? shouldPop = freezed,
   }) {
     return _then(_value.copyWith(
       todo: todo == freezed
@@ -838,6 +849,18 @@ class _$TodoFormStateCopyWithImpl<$Res>
       isEditing: isEditing == freezed
           ? _value.isEditing
           : isEditing // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isLoading: isLoading == freezed
+          ? _value.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isChanged: isChanged == freezed
+          ? _value.isChanged
+          : isChanged // ignore: cast_nullable_to_non_nullable
+              as bool,
+      shouldPop: shouldPop == freezed
+          ? _value.shouldPop
+          : shouldPop // ignore: cast_nullable_to_non_nullable
               as bool,
     ));
   }
@@ -857,7 +880,12 @@ abstract class _$$_TodoFormStateCopyWith<$Res>
           _$_TodoFormState value, $Res Function(_$_TodoFormState) then) =
       __$$_TodoFormStateCopyWithImpl<$Res>;
   @override
-  $Res call({Todo todo, bool isEditing});
+  $Res call(
+      {Todo todo,
+      bool isEditing,
+      bool isLoading,
+      bool isChanged,
+      bool shouldPop});
 
   @override
   $TodoCopyWith<$Res> get todo;
@@ -878,6 +906,9 @@ class __$$_TodoFormStateCopyWithImpl<$Res>
   $Res call({
     Object? todo = freezed,
     Object? isEditing = freezed,
+    Object? isLoading = freezed,
+    Object? isChanged = freezed,
+    Object? shouldPop = freezed,
   }) {
     return _then(_$_TodoFormState(
       todo: todo == freezed
@@ -888,6 +919,18 @@ class __$$_TodoFormStateCopyWithImpl<$Res>
           ? _value.isEditing
           : isEditing // ignore: cast_nullable_to_non_nullable
               as bool,
+      isLoading: isLoading == freezed
+          ? _value.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isChanged: isChanged == freezed
+          ? _value.isChanged
+          : isChanged // ignore: cast_nullable_to_non_nullable
+              as bool,
+      shouldPop: shouldPop == freezed
+          ? _value.shouldPop
+          : shouldPop // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -895,16 +938,30 @@ class __$$_TodoFormStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_TodoFormState implements _TodoFormState {
-  const _$_TodoFormState({required this.todo, required this.isEditing});
+  const _$_TodoFormState(
+      {required this.todo,
+      required this.isEditing,
+      this.isLoading = false,
+      this.isChanged = false,
+      this.shouldPop = false});
 
   @override
   final Todo todo;
   @override
   final bool isEditing;
+  @override
+  @JsonKey()
+  final bool isLoading;
+  @override
+  @JsonKey()
+  final bool isChanged;
+  @override
+  @JsonKey()
+  final bool shouldPop;
 
   @override
   String toString() {
-    return 'TodoFormState(todo: $todo, isEditing: $isEditing)';
+    return 'TodoFormState(todo: $todo, isEditing: $isEditing, isLoading: $isLoading, isChanged: $isChanged, shouldPop: $shouldPop)';
   }
 
   @override
@@ -913,14 +970,20 @@ class _$_TodoFormState implements _TodoFormState {
         (other.runtimeType == runtimeType &&
             other is _$_TodoFormState &&
             const DeepCollectionEquality().equals(other.todo, todo) &&
-            const DeepCollectionEquality().equals(other.isEditing, isEditing));
+            const DeepCollectionEquality().equals(other.isEditing, isEditing) &&
+            const DeepCollectionEquality().equals(other.isLoading, isLoading) &&
+            const DeepCollectionEquality().equals(other.isChanged, isChanged) &&
+            const DeepCollectionEquality().equals(other.shouldPop, shouldPop));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(todo),
-      const DeepCollectionEquality().hash(isEditing));
+      const DeepCollectionEquality().hash(isEditing),
+      const DeepCollectionEquality().hash(isLoading),
+      const DeepCollectionEquality().hash(isChanged),
+      const DeepCollectionEquality().hash(shouldPop));
 
   @JsonKey(ignore: true)
   @override
@@ -931,12 +994,21 @@ class _$_TodoFormState implements _TodoFormState {
 abstract class _TodoFormState implements TodoFormState {
   const factory _TodoFormState(
       {required final Todo todo,
-      required final bool isEditing}) = _$_TodoFormState;
+      required final bool isEditing,
+      final bool isLoading,
+      final bool isChanged,
+      final bool shouldPop}) = _$_TodoFormState;
 
   @override
   Todo get todo;
   @override
   bool get isEditing;
+  @override
+  bool get isLoading;
+  @override
+  bool get isChanged;
+  @override
+  bool get shouldPop;
   @override
   @JsonKey(ignore: true)
   _$$_TodoFormStateCopyWith<_$_TodoFormState> get copyWith =>

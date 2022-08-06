@@ -22,6 +22,7 @@ class ThemeController {
   ThemeData get darkTheme => _configureTheme(_darkPalette);
 
   ThemeData _configureTheme(PaletteController palette) => _baseTheme.copyWith(
+        primaryColor: palette.colorBlue,
         scaffoldBackgroundColor: palette.backPrimary,
         appBarTheme: _baseAppBarTheme.copyWith(
           color: palette.backSecondary,
@@ -37,6 +38,30 @@ class ThemeController {
             primary: palette.colorBlue,
           ),
         ),
+        textButtonTheme: TextButtonThemeData(
+          style: TextButton.styleFrom(textStyle: button),
+        ),
+        switchTheme: SwitchThemeData(
+          thumbColor: MaterialStateColor.resolveWith(
+            ((states) {
+              if (states.contains(MaterialState.selected)) {
+                return palette.colorBlue;
+              } else {
+                return palette.backElevated;
+              }
+            }),
+          ),
+          trackColor: MaterialStateColor.resolveWith(
+            ((states) {
+              if (states.contains(MaterialState.selected)) {
+                return palette.colorBlue.withOpacity(0.3);
+              } else {
+                return palette.supportOverlay;
+              }
+            }),
+          ),
+        ),
+        dividerTheme: _dividerTheme.copyWith(color: palette.supportSeparator),
         textTheme: TextTheme(
           headline5: largeTitle.copyWith(color: palette.labelPrimary),
           headline6: title.copyWith(color: palette.labelPrimary),
@@ -44,6 +69,7 @@ class ThemeController {
           bodyText2: subhead.copyWith(color: palette.labelPrimary),
         ),
         extensions: <ThemeExtension<dynamic>>[palette],
+        dialogBackgroundColor: palette.backSecondary,
       );
 
   static final ThemeData _baseTheme = ThemeData(
@@ -66,5 +92,10 @@ class ThemeController {
     minVerticalPadding: 12.0,
     horizontalTitleGap: 0.0,
     minLeadingWidth: 0.0,
+  );
+
+  static const _dividerTheme = DividerThemeData(
+    space: 32.0,
+    thickness: 0.5,
   );
 }

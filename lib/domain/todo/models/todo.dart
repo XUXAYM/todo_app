@@ -8,6 +8,8 @@ import '../../core/json_converters/timestamp_or_null_converter.dart';
 import '../../core/services/id_factory.dart';
 import 'todo_importance.dart';
 
+export 'todo_importance.dart';
+
 part 'todo.freezed.dart';
 part 'todo.g.dart';
 

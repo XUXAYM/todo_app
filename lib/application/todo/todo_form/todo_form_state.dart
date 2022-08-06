@@ -10,5 +10,8 @@ class TodoFormState with _$TodoFormState {
   const factory TodoFormState({
     required Todo todo,
     required bool isEditing,
+    @Default(false) bool isLoading,
+    @Default(false) bool isChanged,
+    @Default(false) bool shouldPop,
   }) = _TodoFormState;
 }

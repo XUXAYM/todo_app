@@ -3,10 +3,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../application/todo/todo_watcher/todo_watcher_bloc.dart';
 import '../../../../domain/todo/models/todo.dart';
-import '../../../../domain/todo/models/todo_importance.dart';
+import '../../../services/navigating/navigation_controller.dart';
+import '../../../services/s.dart';
 import '../../../services/theming/assets_controller.dart';
 import '../../../services/theming/theme_extension.dart';
 
@@ -33,11 +35,12 @@ class TodoListTile extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 _buildTitle(context),
+                if (todo.deadline != null) _buildSubtitle(context),
               ],
             ),
           ),
         ),
-        const _EditTodoIconButton(),
+        _EditTodoIconButton(todo: todo),
       ],
     );
   }
@@ -103,14 +106,13 @@ class TodoListTile extends StatelessWidget {
     }
   }
 
-  Widget? _buildSubtitle(BuildContext context) {
-    if (todo.deadline == null) return null;
-
+  Widget _buildSubtitle(BuildContext context) {
     final theme = Theme.of(context);
+
     return Padding(
       padding: const EdgeInsets.only(top: 4.0),
       child: Text(
-        todo.deadline!.toIso8601String(),
+        DateFormat.yMMMMd(S.of(context).localeName).format(todo.deadline!),
         style: theme.textTheme.bodyText2!
             .copyWith(color: theme.paletteController?.labelTertiary),
       ),
@@ -165,7 +167,12 @@ class _TodoCheckbox extends StatelessWidget {
 }
 
 class _EditTodoIconButton extends StatelessWidget {
-  const _EditTodoIconButton({super.key});
+  final Todo todo;
+
+  const _EditTodoIconButton({
+    super.key,
+    required this.todo,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -175,7 +182,8 @@ class _EditTodoIconButton extends StatelessWidget {
         Icons.info_outline,
         color: Theme.of(context).paletteController?.labelTertiary,
       ),
-      onPressed: () {},
+      onPressed: () =>
+          NavigationController.navigateTo(Routes.todoPage, args: todo),
     );
   }
 }
