@@ -28,17 +28,20 @@ mixin _$Todo {
   TodoImportance get importance => throw _privateConstructorUsedError;
   @HiveField(3)
   bool get done => throw _privateConstructorUsedError;
-  @HiveField(5)
+  @HiveField(4)
   @JsonKey(name: 'created_at')
-  @TimestampOrNullConverter()
+  @TimestampConverter()
   DateTime get createdAt => throw _privateConstructorUsedError;
-  @HiveField(6)
+  @HiveField(5)
   @JsonKey(name: 'changed_at')
   @TimestampConverter()
   DateTime get changedAt => throw _privateConstructorUsedError;
-  @HiveField(7)
-  @TimestampConverter()
+  @HiveField(6)
+  @TimestampOrNullConverter()
   DateTime? get deadline => throw _privateConstructorUsedError;
+  @HiveField(7)
+  @JsonKey(name: 'last_updated_by')
+  String? get lastUpdatedBy => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -58,17 +61,20 @@ abstract class $TodoCopyWith<$Res> {
           TodoImportance importance,
       @HiveField(3)
           bool done,
-      @HiveField(5)
+      @HiveField(4)
       @JsonKey(name: 'created_at')
-      @TimestampOrNullConverter()
+      @TimestampConverter()
           DateTime createdAt,
-      @HiveField(6)
+      @HiveField(5)
       @JsonKey(name: 'changed_at')
       @TimestampConverter()
           DateTime changedAt,
+      @HiveField(6)
+      @TimestampOrNullConverter()
+          DateTime? deadline,
       @HiveField(7)
-      @TimestampConverter()
-          DateTime? deadline});
+      @JsonKey(name: 'last_updated_by')
+          String? lastUpdatedBy});
 }
 
 /// @nodoc
@@ -88,6 +94,7 @@ class _$TodoCopyWithImpl<$Res> implements $TodoCopyWith<$Res> {
     Object? createdAt = freezed,
     Object? changedAt = freezed,
     Object? deadline = freezed,
+    Object? lastUpdatedBy = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed
@@ -118,6 +125,10 @@ class _$TodoCopyWithImpl<$Res> implements $TodoCopyWith<$Res> {
           ? _value.deadline
           : deadline // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      lastUpdatedBy: lastUpdatedBy == freezed
+          ? _value.lastUpdatedBy
+          : lastUpdatedBy // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -136,17 +147,20 @@ abstract class _$$_TodoCopyWith<$Res> implements $TodoCopyWith<$Res> {
           TodoImportance importance,
       @HiveField(3)
           bool done,
-      @HiveField(5)
+      @HiveField(4)
       @JsonKey(name: 'created_at')
-      @TimestampOrNullConverter()
+      @TimestampConverter()
           DateTime createdAt,
-      @HiveField(6)
+      @HiveField(5)
       @JsonKey(name: 'changed_at')
       @TimestampConverter()
           DateTime changedAt,
+      @HiveField(6)
+      @TimestampOrNullConverter()
+          DateTime? deadline,
       @HiveField(7)
-      @TimestampConverter()
-          DateTime? deadline});
+      @JsonKey(name: 'last_updated_by')
+          String? lastUpdatedBy});
 }
 
 /// @nodoc
@@ -167,6 +181,7 @@ class __$$_TodoCopyWithImpl<$Res> extends _$TodoCopyWithImpl<$Res>
     Object? createdAt = freezed,
     Object? changedAt = freezed,
     Object? deadline = freezed,
+    Object? lastUpdatedBy = freezed,
   }) {
     return _then(_$_Todo(
       id: id == freezed
@@ -197,6 +212,10 @@ class __$$_TodoCopyWithImpl<$Res> extends _$TodoCopyWithImpl<$Res>
           ? _value.deadline
           : deadline // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      lastUpdatedBy: lastUpdatedBy == freezed
+          ? _value.lastUpdatedBy
+          : lastUpdatedBy // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -213,17 +232,20 @@ class _$_Todo extends _Todo {
           required this.importance,
       @HiveField(3)
           required this.done,
-      @HiveField(5)
+      @HiveField(4)
       @JsonKey(name: 'created_at')
-      @TimestampOrNullConverter()
+      @TimestampConverter()
           required this.createdAt,
-      @HiveField(6)
+      @HiveField(5)
       @JsonKey(name: 'changed_at')
       @TimestampConverter()
           required this.changedAt,
+      @HiveField(6)
+      @TimestampOrNullConverter()
+          this.deadline,
       @HiveField(7)
-      @TimestampConverter()
-          this.deadline})
+      @JsonKey(name: 'last_updated_by')
+          this.lastUpdatedBy})
       : super._();
 
   factory _$_Todo.fromJson(Map<String, dynamic> json) => _$$_TodoFromJson(json);
@@ -241,23 +263,27 @@ class _$_Todo extends _Todo {
   @HiveField(3)
   final bool done;
   @override
-  @HiveField(5)
+  @HiveField(4)
   @JsonKey(name: 'created_at')
-  @TimestampOrNullConverter()
+  @TimestampConverter()
   final DateTime createdAt;
   @override
-  @HiveField(6)
+  @HiveField(5)
   @JsonKey(name: 'changed_at')
   @TimestampConverter()
   final DateTime changedAt;
   @override
-  @HiveField(7)
-  @TimestampConverter()
+  @HiveField(6)
+  @TimestampOrNullConverter()
   final DateTime? deadline;
+  @override
+  @HiveField(7)
+  @JsonKey(name: 'last_updated_by')
+  final String? lastUpdatedBy;
 
   @override
   String toString() {
-    return 'Todo(id: $id, text: $text, importance: $importance, done: $done, createdAt: $createdAt, changedAt: $changedAt, deadline: $deadline)';
+    return 'Todo(id: $id, text: $text, importance: $importance, done: $done, createdAt: $createdAt, changedAt: $changedAt, deadline: $deadline, lastUpdatedBy: $lastUpdatedBy)';
   }
 
   @override
@@ -272,7 +298,9 @@ class _$_Todo extends _Todo {
             const DeepCollectionEquality().equals(other.done, done) &&
             const DeepCollectionEquality().equals(other.createdAt, createdAt) &&
             const DeepCollectionEquality().equals(other.changedAt, changedAt) &&
-            const DeepCollectionEquality().equals(other.deadline, deadline));
+            const DeepCollectionEquality().equals(other.deadline, deadline) &&
+            const DeepCollectionEquality()
+                .equals(other.lastUpdatedBy, lastUpdatedBy));
   }
 
   @JsonKey(ignore: true)
@@ -285,7 +313,8 @@ class _$_Todo extends _Todo {
       const DeepCollectionEquality().hash(done),
       const DeepCollectionEquality().hash(createdAt),
       const DeepCollectionEquality().hash(changedAt),
-      const DeepCollectionEquality().hash(deadline));
+      const DeepCollectionEquality().hash(deadline),
+      const DeepCollectionEquality().hash(lastUpdatedBy));
 
   @JsonKey(ignore: true)
   @override
@@ -310,17 +339,20 @@ abstract class _Todo extends Todo {
           required final TodoImportance importance,
       @HiveField(3)
           required final bool done,
-      @HiveField(5)
+      @HiveField(4)
       @JsonKey(name: 'created_at')
-      @TimestampOrNullConverter()
+      @TimestampConverter()
           required final DateTime createdAt,
-      @HiveField(6)
+      @HiveField(5)
       @JsonKey(name: 'changed_at')
       @TimestampConverter()
           required final DateTime changedAt,
+      @HiveField(6)
+      @TimestampOrNullConverter()
+          final DateTime? deadline,
       @HiveField(7)
-      @TimestampConverter()
-          final DateTime? deadline}) = _$_Todo;
+      @JsonKey(name: 'last_updated_by')
+          final String? lastUpdatedBy}) = _$_Todo;
   const _Todo._() : super._();
 
   factory _Todo.fromJson(Map<String, dynamic> json) = _$_Todo.fromJson;
@@ -338,19 +370,23 @@ abstract class _Todo extends Todo {
   @HiveField(3)
   bool get done;
   @override
-  @HiveField(5)
+  @HiveField(4)
   @JsonKey(name: 'created_at')
-  @TimestampOrNullConverter()
+  @TimestampConverter()
   DateTime get createdAt;
   @override
-  @HiveField(6)
+  @HiveField(5)
   @JsonKey(name: 'changed_at')
   @TimestampConverter()
   DateTime get changedAt;
   @override
-  @HiveField(7)
-  @TimestampConverter()
+  @HiveField(6)
+  @TimestampOrNullConverter()
   DateTime? get deadline;
+  @override
+  @HiveField(7)
+  @JsonKey(name: 'last_updated_by')
+  String? get lastUpdatedBy;
   @override
   @JsonKey(ignore: true)
   _$$_TodoCopyWith<_$_Todo> get copyWith => throw _privateConstructorUsedError;

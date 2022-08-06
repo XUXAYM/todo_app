@@ -21,19 +21,21 @@ class Todo with _$Todo {
     @HiveField(1) required String text,
     @HiveField(2) required TodoImportance importance,
     @HiveField(3) required bool done,
-    @HiveField(5)
+    @HiveField(4)
     @JsonKey(name: 'created_at')
-    @TimestampOrNullConverter()
+    @TimestampConverter()
         required DateTime createdAt,
-    @HiveField(6)
+    @HiveField(5)
     @JsonKey(name: 'changed_at')
     @TimestampConverter()
         required DateTime changedAt,
-    @HiveField(7) @TimestampConverter() DateTime? deadline,
+    @HiveField(6) @TimestampOrNullConverter() DateTime? deadline,
+    @HiveField(7) @JsonKey(name: 'last_updated_by') String? lastUpdatedBy,
   }) = _Todo;
 
   factory Todo.textOnly(String text) {
     final date = DateTime.now();
+
     return Todo(
       id: IdFactory.generate(),
       text: text,

@@ -21,16 +21,17 @@ class TodoAdapter extends TypeAdapter<Todo> {
       text: fields[1] as String,
       importance: fields[2] as TodoImportance,
       done: fields[3] as bool,
-      createdAt: fields[5] as DateTime,
-      changedAt: fields[6] as DateTime,
-      deadline: fields[7] as DateTime?,
+      createdAt: fields[4] as DateTime,
+      changedAt: fields[5] as DateTime,
+      deadline: fields[6] as DateTime?,
+      lastUpdatedBy: fields[7] as String?,
     );
   }
 
   @override
   void write(BinaryWriter writer, Todo obj) {
     writer
-      ..writeByte(7)
+      ..writeByte(8)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -39,12 +40,14 @@ class TodoAdapter extends TypeAdapter<Todo> {
       ..write(obj.importance)
       ..writeByte(3)
       ..write(obj.done)
-      ..writeByte(5)
+      ..writeByte(4)
       ..write(obj.createdAt)
-      ..writeByte(6)
+      ..writeByte(5)
       ..write(obj.changedAt)
+      ..writeByte(6)
+      ..write(obj.deadline)
       ..writeByte(7)
-      ..write(obj.deadline);
+      ..write(obj.lastUpdatedBy);
   }
 
   @override
@@ -67,10 +70,11 @@ _$_Todo _$$_TodoFromJson(Map<String, dynamic> json) => _$_Todo(
       text: json['text'] as String,
       importance: $enumDecode(_$TodoImportanceEnumMap, json['importance']),
       done: json['done'] as bool,
-      createdAt: DateTime.parse(json['created_at'] as String),
+      createdAt: const TimestampConverter().fromJson(json['created_at'] as int),
       changedAt: const TimestampConverter().fromJson(json['changed_at'] as int),
-      deadline: _$JsonConverterFromJson<int, DateTime>(
-          json['deadline'], const TimestampConverter().fromJson),
+      deadline:
+          const TimestampOrNullConverter().fromJson(json['deadline'] as int?),
+      lastUpdatedBy: json['last_updated_by'] as String?,
     );
 
 Map<String, dynamic> _$$_TodoToJson(_$_Todo instance) => <String, dynamic>{
@@ -78,10 +82,10 @@ Map<String, dynamic> _$$_TodoToJson(_$_Todo instance) => <String, dynamic>{
       'text': instance.text,
       'importance': _$TodoImportanceEnumMap[instance.importance]!,
       'done': instance.done,
-      'created_at': instance.createdAt.toIso8601String(),
+      'created_at': const TimestampConverter().toJson(instance.createdAt),
       'changed_at': const TimestampConverter().toJson(instance.changedAt),
-      'deadline': _$JsonConverterToJson<int, DateTime>(
-          instance.deadline, const TimestampConverter().toJson),
+      'deadline': const TimestampOrNullConverter().toJson(instance.deadline),
+      'last_updated_by': instance.lastUpdatedBy,
     };
 
 const _$TodoImportanceEnumMap = {
@@ -89,15 +93,3 @@ const _$TodoImportanceEnumMap = {
   TodoImportance.basic: 'basic',
   TodoImportance.important: 'important',
 };
-
-Value? _$JsonConverterFromJson<Json, Value>(
-  Object? json,
-  Value? Function(Json json) fromJson,
-) =>
-    json == null ? null : fromJson(json as Json);
-
-Json? _$JsonConverterToJson<Json, Value>(
-  Value? value,
-  Json? Function(Value value) toJson,
-) =>
-    value == null ? null : toJson(value);

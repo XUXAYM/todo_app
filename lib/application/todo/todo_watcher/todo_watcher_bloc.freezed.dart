@@ -18,6 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$TodoWatcherEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function() todosFetched,
     required TResult Function() todosRequested,
     required TResult Function() completedVisibilityChanged,
     required TResult Function(Todo todo) todoDeleted,
@@ -26,6 +27,7 @@ mixin _$TodoWatcherEvent {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult Function()? todosFetched,
     TResult Function()? todosRequested,
     TResult Function()? completedVisibilityChanged,
     TResult Function(Todo todo)? todoDeleted,
@@ -34,6 +36,7 @@ mixin _$TodoWatcherEvent {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? todosFetched,
     TResult Function()? todosRequested,
     TResult Function()? completedVisibilityChanged,
     TResult Function(Todo todo)? todoDeleted,
@@ -43,6 +46,7 @@ mixin _$TodoWatcherEvent {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(_TodosFetched value) todosFetched,
     required TResult Function(_TodosRequested value) todosRequested,
     required TResult Function(_CompletedVisibilityChanged value)
         completedVisibilityChanged,
@@ -52,6 +56,7 @@ mixin _$TodoWatcherEvent {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(_TodosFetched value)? todosFetched,
     TResult Function(_TodosRequested value)? todosRequested,
     TResult Function(_CompletedVisibilityChanged value)?
         completedVisibilityChanged,
@@ -61,6 +66,7 @@ mixin _$TodoWatcherEvent {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(_TodosFetched value)? todosFetched,
     TResult Function(_TodosRequested value)? todosRequested,
     TResult Function(_CompletedVisibilityChanged value)?
         completedVisibilityChanged,
@@ -86,6 +92,132 @@ class _$TodoWatcherEventCopyWithImpl<$Res>
   final TodoWatcherEvent _value;
   // ignore: unused_field
   final $Res Function(TodoWatcherEvent) _then;
+}
+
+/// @nodoc
+abstract class _$$_TodosFetchedCopyWith<$Res> {
+  factory _$$_TodosFetchedCopyWith(
+          _$_TodosFetched value, $Res Function(_$_TodosFetched) then) =
+      __$$_TodosFetchedCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$_TodosFetchedCopyWithImpl<$Res>
+    extends _$TodoWatcherEventCopyWithImpl<$Res>
+    implements _$$_TodosFetchedCopyWith<$Res> {
+  __$$_TodosFetchedCopyWithImpl(
+      _$_TodosFetched _value, $Res Function(_$_TodosFetched) _then)
+      : super(_value, (v) => _then(v as _$_TodosFetched));
+
+  @override
+  _$_TodosFetched get _value => super._value as _$_TodosFetched;
+}
+
+/// @nodoc
+
+class _$_TodosFetched implements _TodosFetched {
+  const _$_TodosFetched();
+
+  @override
+  String toString() {
+    return 'TodoWatcherEvent.todosFetched()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$_TodosFetched);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() todosFetched,
+    required TResult Function() todosRequested,
+    required TResult Function() completedVisibilityChanged,
+    required TResult Function(Todo todo) todoDeleted,
+    required TResult Function(Todo todo) todoToggled,
+  }) {
+    return todosFetched();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function()? todosFetched,
+    TResult Function()? todosRequested,
+    TResult Function()? completedVisibilityChanged,
+    TResult Function(Todo todo)? todoDeleted,
+    TResult Function(Todo todo)? todoToggled,
+  }) {
+    return todosFetched?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? todosFetched,
+    TResult Function()? todosRequested,
+    TResult Function()? completedVisibilityChanged,
+    TResult Function(Todo todo)? todoDeleted,
+    TResult Function(Todo todo)? todoToggled,
+    required TResult orElse(),
+  }) {
+    if (todosFetched != null) {
+      return todosFetched();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_TodosFetched value) todosFetched,
+    required TResult Function(_TodosRequested value) todosRequested,
+    required TResult Function(_CompletedVisibilityChanged value)
+        completedVisibilityChanged,
+    required TResult Function(_TodoDeleted value) todoDeleted,
+    required TResult Function(_TodoToggled value) todoToggled,
+  }) {
+    return todosFetched(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(_TodosFetched value)? todosFetched,
+    TResult Function(_TodosRequested value)? todosRequested,
+    TResult Function(_CompletedVisibilityChanged value)?
+        completedVisibilityChanged,
+    TResult Function(_TodoDeleted value)? todoDeleted,
+    TResult Function(_TodoToggled value)? todoToggled,
+  }) {
+    return todosFetched?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_TodosFetched value)? todosFetched,
+    TResult Function(_TodosRequested value)? todosRequested,
+    TResult Function(_CompletedVisibilityChanged value)?
+        completedVisibilityChanged,
+    TResult Function(_TodoDeleted value)? todoDeleted,
+    TResult Function(_TodoToggled value)? todoToggled,
+    required TResult orElse(),
+  }) {
+    if (todosFetched != null) {
+      return todosFetched(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _TodosFetched implements TodoWatcherEvent {
+  const factory _TodosFetched() = _$_TodosFetched;
 }
 
 /// @nodoc
@@ -129,6 +261,7 @@ class _$_TodosRequested implements _TodosRequested {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function() todosFetched,
     required TResult Function() todosRequested,
     required TResult Function() completedVisibilityChanged,
     required TResult Function(Todo todo) todoDeleted,
@@ -140,6 +273,7 @@ class _$_TodosRequested implements _TodosRequested {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult Function()? todosFetched,
     TResult Function()? todosRequested,
     TResult Function()? completedVisibilityChanged,
     TResult Function(Todo todo)? todoDeleted,
@@ -151,6 +285,7 @@ class _$_TodosRequested implements _TodosRequested {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? todosFetched,
     TResult Function()? todosRequested,
     TResult Function()? completedVisibilityChanged,
     TResult Function(Todo todo)? todoDeleted,
@@ -166,6 +301,7 @@ class _$_TodosRequested implements _TodosRequested {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(_TodosFetched value) todosFetched,
     required TResult Function(_TodosRequested value) todosRequested,
     required TResult Function(_CompletedVisibilityChanged value)
         completedVisibilityChanged,
@@ -178,6 +314,7 @@ class _$_TodosRequested implements _TodosRequested {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(_TodosFetched value)? todosFetched,
     TResult Function(_TodosRequested value)? todosRequested,
     TResult Function(_CompletedVisibilityChanged value)?
         completedVisibilityChanged,
@@ -190,6 +327,7 @@ class _$_TodosRequested implements _TodosRequested {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(_TodosFetched value)? todosFetched,
     TResult Function(_TodosRequested value)? todosRequested,
     TResult Function(_CompletedVisibilityChanged value)?
         completedVisibilityChanged,
@@ -253,6 +391,7 @@ class _$_CompletedVisibilityChanged implements _CompletedVisibilityChanged {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function() todosFetched,
     required TResult Function() todosRequested,
     required TResult Function() completedVisibilityChanged,
     required TResult Function(Todo todo) todoDeleted,
@@ -264,6 +403,7 @@ class _$_CompletedVisibilityChanged implements _CompletedVisibilityChanged {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult Function()? todosFetched,
     TResult Function()? todosRequested,
     TResult Function()? completedVisibilityChanged,
     TResult Function(Todo todo)? todoDeleted,
@@ -275,6 +415,7 @@ class _$_CompletedVisibilityChanged implements _CompletedVisibilityChanged {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? todosFetched,
     TResult Function()? todosRequested,
     TResult Function()? completedVisibilityChanged,
     TResult Function(Todo todo)? todoDeleted,
@@ -290,6 +431,7 @@ class _$_CompletedVisibilityChanged implements _CompletedVisibilityChanged {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(_TodosFetched value) todosFetched,
     required TResult Function(_TodosRequested value) todosRequested,
     required TResult Function(_CompletedVisibilityChanged value)
         completedVisibilityChanged,
@@ -302,6 +444,7 @@ class _$_CompletedVisibilityChanged implements _CompletedVisibilityChanged {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(_TodosFetched value)? todosFetched,
     TResult Function(_TodosRequested value)? todosRequested,
     TResult Function(_CompletedVisibilityChanged value)?
         completedVisibilityChanged,
@@ -314,6 +457,7 @@ class _$_CompletedVisibilityChanged implements _CompletedVisibilityChanged {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(_TodosFetched value)? todosFetched,
     TResult Function(_TodosRequested value)? todosRequested,
     TResult Function(_CompletedVisibilityChanged value)?
         completedVisibilityChanged,
@@ -406,6 +550,7 @@ class _$_TodoDeleted implements _TodoDeleted {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function() todosFetched,
     required TResult Function() todosRequested,
     required TResult Function() completedVisibilityChanged,
     required TResult Function(Todo todo) todoDeleted,
@@ -417,6 +562,7 @@ class _$_TodoDeleted implements _TodoDeleted {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult Function()? todosFetched,
     TResult Function()? todosRequested,
     TResult Function()? completedVisibilityChanged,
     TResult Function(Todo todo)? todoDeleted,
@@ -428,6 +574,7 @@ class _$_TodoDeleted implements _TodoDeleted {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? todosFetched,
     TResult Function()? todosRequested,
     TResult Function()? completedVisibilityChanged,
     TResult Function(Todo todo)? todoDeleted,
@@ -443,6 +590,7 @@ class _$_TodoDeleted implements _TodoDeleted {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(_TodosFetched value) todosFetched,
     required TResult Function(_TodosRequested value) todosRequested,
     required TResult Function(_CompletedVisibilityChanged value)
         completedVisibilityChanged,
@@ -455,6 +603,7 @@ class _$_TodoDeleted implements _TodoDeleted {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(_TodosFetched value)? todosFetched,
     TResult Function(_TodosRequested value)? todosRequested,
     TResult Function(_CompletedVisibilityChanged value)?
         completedVisibilityChanged,
@@ -467,6 +616,7 @@ class _$_TodoDeleted implements _TodoDeleted {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(_TodosFetched value)? todosFetched,
     TResult Function(_TodosRequested value)? todosRequested,
     TResult Function(_CompletedVisibilityChanged value)?
         completedVisibilityChanged,
@@ -564,6 +714,7 @@ class _$_TodoToggled implements _TodoToggled {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function() todosFetched,
     required TResult Function() todosRequested,
     required TResult Function() completedVisibilityChanged,
     required TResult Function(Todo todo) todoDeleted,
@@ -575,6 +726,7 @@ class _$_TodoToggled implements _TodoToggled {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult Function()? todosFetched,
     TResult Function()? todosRequested,
     TResult Function()? completedVisibilityChanged,
     TResult Function(Todo todo)? todoDeleted,
@@ -586,6 +738,7 @@ class _$_TodoToggled implements _TodoToggled {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? todosFetched,
     TResult Function()? todosRequested,
     TResult Function()? completedVisibilityChanged,
     TResult Function(Todo todo)? todoDeleted,
@@ -601,6 +754,7 @@ class _$_TodoToggled implements _TodoToggled {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(_TodosFetched value) todosFetched,
     required TResult Function(_TodosRequested value) todosRequested,
     required TResult Function(_CompletedVisibilityChanged value)
         completedVisibilityChanged,
@@ -613,6 +767,7 @@ class _$_TodoToggled implements _TodoToggled {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(_TodosFetched value)? todosFetched,
     TResult Function(_TodosRequested value)? todosRequested,
     TResult Function(_CompletedVisibilityChanged value)?
         completedVisibilityChanged,
@@ -625,6 +780,7 @@ class _$_TodoToggled implements _TodoToggled {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(_TodosFetched value)? todosFetched,
     TResult Function(_TodosRequested value)? todosRequested,
     TResult Function(_CompletedVisibilityChanged value)?
         completedVisibilityChanged,

@@ -4,7 +4,9 @@ import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
+import '../../../domain/core/services/i_device_id_provider.dart';
 import '../../../domain/todo/exceptions/cached_exceptions.dart';
+import '../../../domain/todo/exceptions/network_exceptions.dart';
 import '../../../domain/todo/i_todo_local_data_source.dart';
 import '../../../domain/todo/i_todo_remote_data_source.dart';
 import '../../../domain/todo/models/todo.dart';
@@ -21,14 +23,16 @@ const Duration _duration = Duration(milliseconds: 150);
 @injectable
 class AddTodoBloc extends Bloc<AddTodoEvent, AddTodoState> {
   final ITodoLocalDataSource _localDataSource;
-  // TODO: Implement remote interactions
   final ITodoRemoteDataSource _remoteDataSource;
+  final IDeviceIdProvider _deviceIdProvider;
 
   AddTodoBloc(
     ITodoLocalDataSource todoLocalDataSource,
     ITodoRemoteDataSource todoRemoteDataSource,
+    IDeviceIdProvider deviceIdProvider,
   )   : _localDataSource = todoLocalDataSource,
         _remoteDataSource = todoRemoteDataSource,
+        _deviceIdProvider = deviceIdProvider,
         super(AddTodoState.empty()) {
     on<_TextChanged>(_textChanged, transformer: debounce(_duration));
     on<_AddTodoPressed>(_addTodoPressed);
@@ -55,6 +59,7 @@ class AddTodoBloc extends Bloc<AddTodoEvent, AddTodoState> {
     final todo = Todo.textOnly(state.text).copyWith(
       createdAt: createdTime,
       changedAt: createdTime,
+      lastUpdatedBy: await _deviceIdProvider.getDeviceId(),
     );
 
     try {
@@ -63,9 +68,20 @@ class AddTodoBloc extends Bloc<AddTodoEvent, AddTodoState> {
       final todoData = TodoData.single(
         todo: todo,
         revision: localRevision,
-      );
+      ) as SingleTodoData;
 
-      await _localDataSource.add(todoData as SingleTodoData);
+      await _localDataSource.add(todoData);
+
+      try {
+        final remoteTodoData = await _remoteDataSource.create(todoData);
+
+        await _localDataSource.update(remoteTodoData);
+      } on NetworkException catch (e, stackTrace) {
+        LoggerController.logger
+            .warning('Some problem with remote store', e, stackTrace);
+
+        await _localDataSource.setIsDurtyData(true);
+      }
     } on CachedException catch (e, stackTrace) {
       LoggerController.logger
           .warning('Some problem with saving todo localy', e, stackTrace);

@@ -4,11 +4,12 @@ import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
+import '../../../domain/core/services/i_device_id_provider.dart';
 import '../../../domain/todo/exceptions/cached_exceptions.dart';
+import '../../../domain/todo/exceptions/network_exceptions.dart';
 import '../../../domain/todo/i_todo_local_data_source.dart';
 import '../../../domain/todo/i_todo_remote_data_source.dart';
 import '../../../domain/todo/models/todo.dart';
-import '../../../domain/todo/models/todo_data.dart';
 import '../../../presentation/services/logger_controller.dart';
 
 part 'todo_watcher_bloc.freezed.dart';
@@ -18,17 +19,20 @@ part 'todo_watcher_state.dart';
 @injectable
 class TodoWatcherBloc extends Bloc<TodoWatcherEvent, TodoWatcherState> {
   final ITodoLocalDataSource _localDataSource;
-  // TODO: Implement remote interactions
   final ITodoRemoteDataSource _remoteDataSource;
+  final IDeviceIdProvider _deviceIdProvider;
 
   late final StreamSubscription _todoStreamSubscription;
 
   TodoWatcherBloc(
     ITodoLocalDataSource todoLocalDataSource,
     ITodoRemoteDataSource todoRemoteDataSource,
+    IDeviceIdProvider deviceIdProvider,
   )   : _localDataSource = todoLocalDataSource,
         _remoteDataSource = todoRemoteDataSource,
+        _deviceIdProvider = deviceIdProvider,
         super(TodoWatcherState.initial()) {
+    on<_TodosFetched>(_todosFetched);
     on<_TodosRequested>(_todosRequested);
     on<_TodoDeleted>(_todoDeleted);
     on<_TodoToggled>(_todoToggled);
@@ -39,23 +43,53 @@ class TodoWatcherBloc extends Bloc<TodoWatcherEvent, TodoWatcherState> {
       add(const TodoWatcherEvent.todosRequested());
     });
   }
-
-  FutureOr<void> _todosRequested(
-    _TodosRequested event,
+  FutureOr<void> _todosFetched(
+    _TodosFetched event,
     Emitter<TodoWatcherState> emit,
   ) =>
       _performTodoInteractions(
         emit,
         () async {
-          final localTodoData = await _localDataSource.getAll();
+          try {
+            final remoteTodoData = await _remoteDataSource.getAll();
+            await _localDataSource.replaceAll(remoteTodoData);
 
-          emit(state.copyWith(
-            todos: localTodoData.todos,
-            exception: null,
-            isLoading: false,
-          ));
+            emit(state.copyWith(
+              todos: remoteTodoData.todos,
+              exception: null,
+              isLoading: false,
+              initial: false,
+            ));
+          } on NetworkException catch (e, stackTrace) {
+            LoggerController.logger
+                .warning('Some problem with remote store', e, stackTrace);
+
+            final localTodoData = await _localDataSource.getAll();
+
+            emit(state.copyWith(
+              todos: localTodoData.todos,
+              exception: null,
+              isLoading: false,
+              initial: false,
+            ));
+          }
         },
       );
+
+  FutureOr<void> _todosRequested(
+    _TodosRequested event,
+    Emitter<TodoWatcherState> emit,
+  ) =>
+      _performTodoInteractions(emit, () async {
+        final localTodoData = await _localDataSource.getAll();
+
+        emit(state.copyWith(
+          todos: localTodoData.todos,
+          exception: null,
+          isLoading: false,
+          initial: false,
+        ));
+      });
 
   FutureOr<void> _todoDeleted(
     _TodoDeleted event,
@@ -64,11 +98,16 @@ class TodoWatcherBloc extends Bloc<TodoWatcherEvent, TodoWatcherState> {
       _performTodoInteractions(
         emit,
         () async {
-          final localRevision = await _localDataSource.getRevision();
-          final todoData =
-              TodoData.single(todo: event.todo, revision: localRevision);
+          final todoData = await _localDataSource.get(event.todo.id);
 
-          await _localDataSource.delete(todoData as SingleTodoData);
+          await _localDataSource.delete(todoData);
+          try {
+            await _remoteDataSource.delete(todoData);
+          } on NetworkException catch (e, stackTrace) {
+            LoggerController.logger
+                .warning('Some problem with remote store', e, stackTrace);
+            await _localDataSource.setIsDurtyData(true);
+          }
         },
       );
 
@@ -79,16 +118,26 @@ class TodoWatcherBloc extends Bloc<TodoWatcherEvent, TodoWatcherState> {
       _performTodoInteractions(
         emit,
         () async {
-          final localRevision = await _localDataSource.getRevision();
-          final todoData = TodoData.single(
-            todo: event.todo.copyWith(
-              done: !event.todo.done,
+          final localTodoData = await _localDataSource.get(event.todo.id);
+
+          final todoData = localTodoData.copyWith(
+            todo: localTodoData.todo.copyWith(
+              done: !localTodoData.todo.done,
               changedAt: DateTime.now(),
+              lastUpdatedBy: await _deviceIdProvider.getDeviceId(),
             ),
-            revision: localRevision,
           );
 
-          await _localDataSource.update(todoData as SingleTodoData);
+          await _localDataSource.update(todoData);
+          try {
+            final remoteData = await _remoteDataSource.update(todoData);
+
+            await _localDataSource.update(remoteData);
+          } on NetworkException catch (e, stackTrace) {
+            LoggerController.logger
+                .warning('Some problem with remote store', e, stackTrace);
+            await _localDataSource.setIsDurtyData(true);
+          }
         },
       );
 

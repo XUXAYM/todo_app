@@ -55,7 +55,10 @@ class HiveTodoLocalDataSource implements ITodoLocalDataSource {
 
     await todoBox.clear();
 
-    await todoBox.addAll(todoData.todos);
+    for (final todo in todoData.todos) {
+      await todoBox.put(todo.id, todo);
+    }
+
     await settingsBox.put(_revisionKey, todoData.revision);
   }
 

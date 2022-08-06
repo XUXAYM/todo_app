@@ -4,7 +4,9 @@ import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
+import '../../../domain/core/services/i_device_id_provider.dart';
 import '../../../domain/todo/exceptions/cached_exceptions.dart';
+import '../../../domain/todo/exceptions/network_exceptions.dart';
 import '../../../domain/todo/i_todo_local_data_source.dart';
 import '../../../domain/todo/i_todo_remote_data_source.dart';
 import '../../../domain/todo/models/todo.dart';
@@ -21,15 +23,17 @@ const Duration _duration = Duration(milliseconds: 150);
 @injectable
 class TodoFormBloc extends Bloc<TodoFormEvent, TodoFormState> {
   final ITodoLocalDataSource _localDataSource;
-  // TODO: Implement remote interactions
   final ITodoRemoteDataSource _remoteDataSource;
+  final IDeviceIdProvider _deviceIdProvider;
 
   TodoFormBloc(
     @factoryParam Todo? todo,
     ITodoLocalDataSource todoLocalDataSource,
     ITodoRemoteDataSource todoRemoteDataSource,
+    IDeviceIdProvider deviceIdProvider,
   )   : _localDataSource = todoLocalDataSource,
         _remoteDataSource = todoRemoteDataSource,
+        _deviceIdProvider = deviceIdProvider,
         super(TodoFormState.initial(todo)) {
     on<_TextChanged>(_textChanged, transformer: debounce(_duration));
     on<_ImportanceChanged>(_importanceChanged);
@@ -85,36 +89,77 @@ class TodoFormBloc extends Bloc<TodoFormEvent, TodoFormState> {
     final todo = state.todo;
 
     if (todo.isFilled) {
-      final localRevision = await _localDataSource.getRevision();
-
       try {
         if (state.isEditing) {
-          final todoData = TodoData.single(
-            todo: todo.copyWith(changedAt: DateTime.now()),
-            revision: localRevision,
-          );
-          await _localDataSource.update(todoData as SingleTodoData);
+          await _updateTodo(todo, emit);
         } else {
-          final date = DateTime.now();
-
-          final todoData = TodoData.single(
-            todo: todo.copyWith(
-              createdAt: date,
-              changedAt: date,
-            ),
-            revision: localRevision,
-          );
-
-          await _localDataSource.add(todoData as SingleTodoData);
+          await _createTodo(todo, emit);
         }
-
-        emit(state.copyWith(shouldPop: true, isLoading: false));
       } on CachedException catch (e, stackTrace) {
         LoggerController.logger
             .warning('Some problem with todo localy storage', e, stackTrace);
 
         emit(state.copyWith(isLoading: false));
       }
+    }
+  }
+
+  FutureOr<void> _updateTodo(Todo todo, Emitter<TodoFormState> emit) async {
+    final localRevision = await _localDataSource.getRevision();
+    final deviceId = await _deviceIdProvider.getDeviceId();
+
+    final todoData = TodoData.single(
+      todo: todo.copyWith(
+        changedAt: DateTime.now(),
+        lastUpdatedBy: deviceId,
+      ),
+      revision: localRevision,
+    );
+
+    await _localDataSource.update(todoData as SingleTodoData);
+
+    emit(state.copyWith(shouldPop: true, isLoading: false));
+
+    try {
+      final remoteData = await _remoteDataSource.update(todoData);
+
+      _localDataSource.update(remoteData);
+    } on NetworkException catch (e, stackTrace) {
+      LoggerController.logger
+          .warning('Some problem with remote store', e, stackTrace);
+
+      _localDataSource.setIsDurtyData(true);
+    }
+  }
+
+  FutureOr<void> _createTodo(Todo todo, Emitter<TodoFormState> emit) async {
+    final localRevision = await _localDataSource.getRevision();
+    final deviceId = await _deviceIdProvider.getDeviceId();
+
+    final date = DateTime.now();
+
+    final todoData = TodoData.single(
+      todo: todo.copyWith(
+        createdAt: date,
+        changedAt: date,
+        lastUpdatedBy: deviceId,
+      ),
+      revision: localRevision,
+    );
+
+    await _localDataSource.add(todoData as SingleTodoData);
+
+    emit(state.copyWith(shouldPop: true, isLoading: false));
+
+    try {
+      final remoteData = await _remoteDataSource.create(todoData);
+
+      _localDataSource.update(remoteData);
+    } on NetworkException catch (e, stackTrace) {
+      LoggerController.logger
+          .warning('Some problem with remote store', e, stackTrace);
+
+      _localDataSource.setIsDurtyData(true);
     }
   }
 
@@ -129,6 +174,15 @@ class TodoFormBloc extends Bloc<TodoFormEvent, TodoFormState> {
         final storedTodoData = await _localDataSource.get(state.todo.id);
 
         await _localDataSource.delete(storedTodoData);
+
+        try {
+          await _remoteDataSource.delete(storedTodoData);
+        } on NetworkException catch (e, stackTrace) {
+          LoggerController.logger
+              .warning('Some problem with remote store', e, stackTrace);
+
+          _localDataSource.setIsDurtyData(true);
+        }
 
         emit(state.copyWith(shouldPop: true, isLoading: false));
       } on CachedException catch (e, stackTrace) {

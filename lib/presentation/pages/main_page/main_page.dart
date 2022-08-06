@@ -12,8 +12,8 @@ class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => getIt<TodoWatcherBloc>()
-        ..add(const TodoWatcherEvent.todosRequested()),
+      create: (context) =>
+          getIt<TodoWatcherBloc>()..add(const TodoWatcherEvent.todosFetched()),
       child: const Scaffold(
         body: MainPageBody(),
         floatingActionButton: AddTodoFloatingActionButton(),

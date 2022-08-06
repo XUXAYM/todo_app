@@ -80,7 +80,7 @@ class YandexBackendTodoRemoteDataSource implements ITodoRemoteDataSource {
   Future<SingleTodoData> create(SingleTodoData todoData) => _exceptionMapper(
         () async {
           final response = await _dio.post(
-            '$_path/${todoData.todo.id}',
+            _path,
             data: todoData.toJson()..remove('revision'),
             options: Options(
               headers: {_revisionHeader: todoData.revision},
