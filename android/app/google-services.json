@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "561283560700",
+    "project_id": "yandex-todo-app-46173",
+    "storage_bucket": "yandex-todo-app-46173.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:561283560700:android:51f35f1eb0da93d2691379",
+        "android_client_info": {
+          "package_name": "com.dmmarkin.todo_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "561283560700-2pponjcb503jld6bqbq61vk28k65grlu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCIGMwMhF_2HS8MaPqPxCvS9Q-ZO4ZiSlc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "561283560700-2pponjcb503jld6bqbq61vk28k65grlu.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "561283560700-qu37nf8sjnc7sdsa3mce59798jo080e9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.todoApp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
