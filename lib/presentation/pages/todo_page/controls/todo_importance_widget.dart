@@ -80,7 +80,7 @@ class TodoImportanceWidget extends StatelessWidget {
                         padding: const EdgeInsets.only(right: 6.0),
                         child: SvgPicture.asset(
                           AssetsController.doubleExclamationMarkSVG,
-                          color: theme.paletteController?.colorRed,
+                          color: theme.paletteController?.colorAttention,
                           height: 12,
                         ),
                       ),
@@ -91,7 +91,7 @@ class TodoImportanceWidget extends StatelessWidget {
                         importance,
                       ),
                       style: theme.textTheme.subtitle1?.copyWith(
-                        color: theme.paletteController?.colorRed,
+                        color: theme.paletteController?.colorAttention,
                       ),
                     ),
                   ],

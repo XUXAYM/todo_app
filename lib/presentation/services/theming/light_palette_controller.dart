@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 
 import 'palette_controller.dart';
+import 'remote_config_controller.dart';
 
 @LazySingleton()
 class LightPaletteController extends PaletteController {
@@ -51,6 +52,10 @@ class LightPaletteController extends PaletteController {
 
   @override
   Color get backElevated => const Color(0xFFFFFFFF);
+
+  @override
+  Color get colorAttention =>
+      RemoteConfigController.isAttentionPurple ? colorPurple : colorRed;
 
   @override
   ThemeExtension<PaletteController> copyWith() =>

@@ -79,7 +79,7 @@ class TodoListTile extends StatelessWidget {
               padding: const EdgeInsets.only(right: 6.0),
               child: SvgPicture.asset(
                 AssetsController.doubleExclamationMarkSVG,
-                color: Theme.of(context).paletteController?.colorRed,
+                color: Theme.of(context).paletteController?.colorAttention,
                 width: 10,
                 height: 16,
               ),
@@ -157,7 +157,7 @@ class _TodoCheckbox extends StatelessWidget {
           } else {
             switch (todo.importance) {
               case TodoImportance.important:
-                return palette.colorRed;
+                return palette.colorAttention;
               default:
                 return palette.supportSeparator;
             }
