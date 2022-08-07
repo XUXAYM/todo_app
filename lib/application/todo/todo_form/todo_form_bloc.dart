@@ -84,11 +84,11 @@ class TodoFormBloc extends Bloc<TodoFormEvent, TodoFormState> {
     _SavePressed event,
     Emitter<TodoFormState> emit,
   ) async {
-    emit(state.copyWith(isLoading: true));
-
     final todo = state.todo;
 
     if (todo.isFilled) {
+      emit(state.copyWith(isLoading: true));
+
       try {
         if (state.isEditing) {
           await _updateTodo(todo, emit);
@@ -98,7 +98,7 @@ class TodoFormBloc extends Bloc<TodoFormEvent, TodoFormState> {
       } on CachedException catch (e, stackTrace) {
         LoggerController.logger
             .warning('Some problem with todo localy storage', e, stackTrace);
-
+      } finally {
         emit(state.copyWith(isLoading: false));
       }
     }

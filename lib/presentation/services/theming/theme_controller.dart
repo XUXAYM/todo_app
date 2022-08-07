@@ -24,6 +24,7 @@ class ThemeController {
   ThemeData _configureTheme(PaletteController palette) => _baseTheme.copyWith(
         primaryColor: palette.colorBlue,
         scaffoldBackgroundColor: palette.backPrimary,
+        canvasColor: palette.backElevated,
         appBarTheme: _baseAppBarTheme.copyWith(
           color: palette.backSecondary,
           foregroundColor: palette.labelPrimary,
