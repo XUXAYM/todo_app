@@ -1,3 +1,5 @@
+import 'package:injectable/injectable.dart';
+
 import '../../domain/core/services/i_device_id_provider.dart';
 import '../../domain/todo/exceptions/cached_exceptions.dart';
 import '../../domain/todo/exceptions/network_exceptions.dart';
@@ -9,6 +11,7 @@ import '../../domain/todo/models/todo.dart';
 import '../../domain/todo/models/todo_data.dart';
 import '../../presentation/services/logger_controller.dart';
 
+@LazySingleton(as: ITodoRepository)
 class TodoRepository implements ITodoRepository {
   final ITodoLocalDataSource _localDataSource;
   final ITodoRemoteDataSource _remoteDataSource;
@@ -26,7 +29,11 @@ class TodoRepository implements ITodoRepository {
   Stream<Todo?> watch() => _localDataSource.watch();
 
   @override
-  Future<Iterable<Todo>> getAll() async {
+  Future<Iterable<Todo>> getAll([bool cached = false]) async {
+    return cached ? _getCachedAll() : _getAllRemoteOtherwiseCached();
+  }
+
+  Future<Iterable<Todo>> _getAllRemoteOtherwiseCached() async {
     try {
       final remoteTodoData = await _remoteDataSource.getAll();
       await _localDataSource.replaceAll(remoteTodoData);
@@ -36,15 +43,7 @@ class TodoRepository implements ITodoRepository {
       LoggerController.logger
           .warning('Some problem with remote store', e, stackTrace);
 
-      try {
-        final localTodoData = await _localDataSource.getAll();
-
-        return localTodoData.todos;
-      } on CachedException catch (e, stackTrace) {
-        LoggerController.logger
-            .warning('Some problem with local store', e, stackTrace);
-        throw const DataFetchException();
-      }
+      return _getCachedAll();
     } on CachedException catch (e, stackTrace) {
       LoggerController.logger
           .warning('Some problem with local store', e, stackTrace);
@@ -52,8 +51,24 @@ class TodoRepository implements ITodoRepository {
     }
   }
 
+  Future<Iterable<Todo>> _getCachedAll() async {
+    try {
+      final localTodoData = await _localDataSource.getAll();
+
+      return localTodoData.todos;
+    } on CachedException catch (e, stackTrace) {
+      LoggerController.logger
+          .warning('Some problem with local store', e, stackTrace);
+      throw const DataFetchException();
+    }
+  }
+
   @override
-  Future<Todo> get(String todoId) async {
+  Future<Todo> get(String todoId, [bool cached = false]) async {
+    return cached ? _getCached(todoId) : _getRemoteOtherwiseCached(todoId);
+  }
+
+  Future<Todo> _getRemoteOtherwiseCached(String todoId) async {
     try {
       final remoteTodoData = await _remoteDataSource.get(todoId);
       await _localDataSource.update(remoteTodoData);
@@ -63,19 +78,23 @@ class TodoRepository implements ITodoRepository {
       LoggerController.logger
           .warning('Some problem with remote store', e, stackTrace);
 
-      try {
-        final localTodoData = await _localDataSource.get(todoId);
-
-        return localTodoData.todo;
-      } on CachedException catch (e, stackTrace) {
-        LoggerController.logger
-            .warning('Some problem with local store', e, stackTrace);
-        throw const DataFetchException();
-      }
+      return _getCached(todoId);
     } on CachedException catch (e, stackTrace) {
       LoggerController.logger
           .warning('Some problem with local store', e, stackTrace);
       throw const DataModifyException();
+    }
+  }
+
+  Future<Todo> _getCached(String todoId) async {
+    try {
+      final localTodoData = await _localDataSource.get(todoId);
+
+      return localTodoData.todo;
+    } on CachedException catch (e, stackTrace) {
+      LoggerController.logger
+          .warning('Some problem with local store', e, stackTrace);
+      throw const DataFetchException();
     }
   }
 

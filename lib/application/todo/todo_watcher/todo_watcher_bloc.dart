@@ -4,11 +4,8 @@ import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../../domain/core/services/i_device_id_provider.dart';
-import '../../../domain/todo/exceptions/cached_exceptions.dart';
-import '../../../domain/todo/exceptions/network_exceptions.dart';
-import '../../../domain/todo/i_todo_local_data_source.dart';
-import '../../../domain/todo/i_todo_remote_data_source.dart';
+import '../../../domain/todo/exceptions/repository_exceptions.dart';
+import '../../../domain/todo/i_todo_repository.dart';
 import '../../../domain/todo/models/todo.dart';
 import '../../../presentation/services/logger_controller.dart';
 
@@ -18,19 +15,13 @@ part 'todo_watcher_state.dart';
 
 @injectable
 class TodoWatcherBloc extends Bloc<TodoWatcherEvent, TodoWatcherState> {
-  final ITodoLocalDataSource _localDataSource;
-  final ITodoRemoteDataSource _remoteDataSource;
-  final IDeviceIdProvider _deviceIdProvider;
+  final ITodoRepository _todoRepository;
 
   late final StreamSubscription _todoStreamSubscription;
 
   TodoWatcherBloc(
-    ITodoLocalDataSource todoLocalDataSource,
-    ITodoRemoteDataSource todoRemoteDataSource,
-    IDeviceIdProvider deviceIdProvider,
-  )   : _localDataSource = todoLocalDataSource,
-        _remoteDataSource = todoRemoteDataSource,
-        _deviceIdProvider = deviceIdProvider,
+    ITodoRepository todoRepository,
+  )   : _todoRepository = todoRepository,
         super(TodoWatcherState.initial()) {
     on<_TodosFetched>(_todosFetched);
     on<_TodosRequested>(_todosRequested);
@@ -38,11 +29,12 @@ class TodoWatcherBloc extends Bloc<TodoWatcherEvent, TodoWatcherState> {
     on<_TodoToggled>(_todoToggled);
     on<_CompletedVisibilityChanged>(_completedVisibilityChanged);
 
-    _todoStreamSubscription = _localDataSource.watch().listen((event) {
-      LoggerController.logger.info('Local todo changes listen invoked');
+    _todoStreamSubscription = _todoRepository.watch().listen((event) {
+      LoggerController.logger.info('Todo changes listen invoked');
       add(const TodoWatcherEvent.todosRequested());
     });
   }
+
   FutureOr<void> _todosFetched(
     _TodosFetched event,
     Emitter<TodoWatcherState> emit,
@@ -50,29 +42,14 @@ class TodoWatcherBloc extends Bloc<TodoWatcherEvent, TodoWatcherState> {
       _performTodoInteractions(
         emit,
         () async {
-          try {
-            final remoteTodoData = await _remoteDataSource.getAll();
-            await _localDataSource.replaceAll(remoteTodoData);
+          final todos = await _todoRepository.getAll();
 
-            emit(state.copyWith(
-              todos: remoteTodoData.todos,
-              exception: null,
-              isLoading: false,
-              initial: false,
-            ));
-          } on NetworkException catch (e, stackTrace) {
-            LoggerController.logger
-                .warning('Some problem with remote store', e, stackTrace);
-
-            final localTodoData = await _localDataSource.getAll();
-
-            emit(state.copyWith(
-              todos: localTodoData.todos,
-              exception: null,
-              isLoading: false,
-              initial: false,
-            ));
-          }
+          emit(state.copyWith(
+            todos: todos,
+            exception: null,
+            isLoading: false,
+            initial: false,
+          ));
         },
       );
 
@@ -81,10 +58,10 @@ class TodoWatcherBloc extends Bloc<TodoWatcherEvent, TodoWatcherState> {
     Emitter<TodoWatcherState> emit,
   ) =>
       _performTodoInteractions(emit, () async {
-        final localTodoData = await _localDataSource.getAll();
+        final localTodos = await _todoRepository.getAll(true);
 
         emit(state.copyWith(
-          todos: localTodoData.todos,
+          todos: localTodos,
           exception: null,
           isLoading: false,
           initial: false,
@@ -98,16 +75,7 @@ class TodoWatcherBloc extends Bloc<TodoWatcherEvent, TodoWatcherState> {
       _performTodoInteractions(
         emit,
         () async {
-          final todoData = await _localDataSource.get(event.todo.id);
-
-          await _localDataSource.delete(todoData);
-          try {
-            await _remoteDataSource.delete(todoData);
-          } on NetworkException catch (e, stackTrace) {
-            LoggerController.logger
-                .warning('Some problem with remote store', e, stackTrace);
-            await _localDataSource.setIsDurtyData(true);
-          }
+          await _todoRepository.delete(event.todo);
         },
       );
 
@@ -118,26 +86,7 @@ class TodoWatcherBloc extends Bloc<TodoWatcherEvent, TodoWatcherState> {
       _performTodoInteractions(
         emit,
         () async {
-          final localTodoData = await _localDataSource.get(event.todo.id);
-
-          final todoData = localTodoData.copyWith(
-            todo: localTodoData.todo.copyWith(
-              done: !localTodoData.todo.done,
-              changedAt: DateTime.now(),
-              lastUpdatedBy: await _deviceIdProvider.getDeviceId(),
-            ),
-          );
-
-          await _localDataSource.update(todoData);
-          try {
-            final remoteData = await _remoteDataSource.update(todoData);
-
-            await _localDataSource.update(remoteData);
-          } on NetworkException catch (e, stackTrace) {
-            LoggerController.logger
-                .warning('Some problem with remote store', e, stackTrace);
-            await _localDataSource.setIsDurtyData(true);
-          }
+          _todoRepository.update(event.todo.copyWith(done: !event.todo.done));
         },
       );
 
@@ -160,14 +109,23 @@ class TodoWatcherBloc extends Bloc<TodoWatcherEvent, TodoWatcherState> {
 
     try {
       await executingBody();
-    } on CachedException catch (e, stackTrace) {
+    } on RepositoryException catch (e, stackTrace) {
       LoggerController.logger
-          .warning('Some problem with todo localy storage', e, stackTrace);
+          .warning('Some problem with repository', e, stackTrace);
 
       emit(state.copyWith(
         isLoading: false,
         exception: e,
       ));
+    } on Object catch (e, stackTrace) {
+      LoggerController.logger.warning('Unexpected exception', e, stackTrace);
+
+      emit(state.copyWith(
+        isLoading: false,
+        exception: e as Exception?,
+      ));
+
+      rethrow;
     }
   }
 
