@@ -7,7 +7,8 @@ import 'package:intl/intl.dart';
 
 import '../../../../application/todo/todo_watcher/todo_watcher_bloc.dart';
 import '../../../../domain/todo/models/todo.dart';
-import '../../../services/navigating/navigation_controller.dart';
+import '../../../../injection.dart';
+import '../../../services/navigating/i_navigation_controller.dart';
 import '../../../services/s.dart';
 import '../../../services/theming/assets_controller.dart';
 import '../../../services/theming/theme_extension.dart';
@@ -182,8 +183,7 @@ class _EditTodoIconButton extends StatelessWidget {
         Icons.info_outline,
         color: Theme.of(context).paletteController?.labelTertiary,
       ),
-      onPressed: () =>
-          NavigationController.navigateTo(Routes.todoPage, args: todo),
+      onPressed: () => getIt<INavigationController>().toTodoForm(todo),
     );
   }
 }

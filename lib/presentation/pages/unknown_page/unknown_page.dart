@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../services/navigating/navigation_controller.dart';
+import '../../../injection.dart';
+import '../../services/navigating/i_navigation_controller.dart';
 import '../../services/s.dart';
 
 class UnknownPage extends StatelessWidget {
@@ -30,7 +31,7 @@ class UnknownPageWidget extends StatelessWidget {
           ),
           const SizedBox(height: 16.0),
           ElevatedButton(
-            onPressed: () => NavigationController.navigateBack(),
+            onPressed: () => getIt<INavigationController>().back(),
             child: Text(S.of(context).back),
           )
         ],
