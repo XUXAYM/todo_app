@@ -14,7 +14,7 @@ class DeviceInfoProvider implements IDeviceIdProvider {
     if (Platform.isAndroid) {
       final androidInfo = await _deviceInfo.androidInfo;
 
-      return androidInfo.androidId ?? androidInfo.id ?? androidInfo.device!;
+      return androidInfo.id ?? androidInfo.device!;
     } else {
       final iosInfo = await _deviceInfo.iosInfo;
 
