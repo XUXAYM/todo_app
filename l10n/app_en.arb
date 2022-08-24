@@ -1,0 +1,19 @@
+{
+    "back": "Back",
+    "cancel": "Сancel",
+    "completed": "Completed",
+    "delete": "Delete",
+    "done_by": "Done by",
+    "exit": "Exit",
+    "exitAlertContent": "You will lose your changes",
+    "exitAlertTitle": "Are you sure, you want to get out", 
+    "high": "High",
+    "importance": "Importance",
+    "low": "Low",
+    "myTodos": "My todos",
+    "newWord": "New",
+    "no": "No",
+    "pageNotFound": "Page not found",
+    "save": "Save",
+    "todoTextFieldHint": "What to do"
+}

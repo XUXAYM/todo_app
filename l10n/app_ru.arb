@@ -1,0 +1,19 @@
+{
+    "back": "Назад",
+    "cancel": "Отмена",
+    "completed": "Выполнено",
+    "delete": "Удалить",
+    "done_by": "Сделать до",
+    "exit": "Выход",
+    "exitAlertContent": "Вы потеряете свои изменения",
+    "exitAlertTitle": "Вы уверены, что хотите выйти", 
+    "high": "Высокая",
+    "importance": "Важность",
+    "low": "Низкая",
+    "myTodos": "Мои дела",
+    "newWord": "Новое",
+    "no": "Нет",
+    "pageNotFound": "Страница не найдена",
+    "save": "Сохранить",
+    "todoTextFieldHint": "Что надо сделать"
+}
