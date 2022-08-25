@@ -15,14 +15,14 @@ import 'presentation/services/logger_controller.dart';
 
 void main() => runZonedGuarded(
       () async {
-        await _initialize();
+        await setup();
 
         runApp(const AppWidget());
       },
       ErrorHandler.recordError,
     );
 
-Future<void> _initialize() async {
+Future<void> setup([String? environment]) async {
   WidgetsFlutterBinding.ensureInitialized();
   LoggerController.logger.info('Initial initialization');
 
@@ -32,7 +32,7 @@ Future<void> _initialize() async {
 
   await _configureHive();
 
-  configureDependencies();
+  configureDependencies(environment);
   await getIt<FirebaseRemoteConfig>().setConfigSettings(RemoteConfigSettings(
     fetchTimeout: const Duration(minutes: 1),
     // Change it to 1 minute, if you need to apply changes immediately
