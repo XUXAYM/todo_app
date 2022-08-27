@@ -2,6 +2,8 @@ part of 'todo_form_bloc.dart';
 
 @freezed
 class TodoFormEvent with _$TodoFormEvent {
+  const factory TodoFormEvent.initialize(String? todoId) = _Initialize;
+
   const factory TodoFormEvent.textChanged(String text) = _TextChanged;
 
   const factory TodoFormEvent.importanceChanged(TodoImportance importance) =

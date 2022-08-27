@@ -11,8 +11,10 @@ class TodoTextField extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = useTextEditingController(
+    final controller = useTextEditingController();
+    controller.value = TextEditingValue(
       text: context.watch<TodoFormBloc>().state.todo.text,
+      selection: controller.selection,
     );
 
     return Material(

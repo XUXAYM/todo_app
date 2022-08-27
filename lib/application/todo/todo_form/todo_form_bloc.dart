@@ -20,16 +20,27 @@ const Duration _duration = Duration(milliseconds: 150);
 class TodoFormBloc extends Bloc<TodoFormEvent, TodoFormState> {
   final ITodoRepository _todoRepository;
 
-  TodoFormBloc(
-    @factoryParam Todo? todo,
-    ITodoRepository todoRepository,
-  )   : _todoRepository = todoRepository,
-        super(TodoFormState.initial(todo)) {
+  TodoFormBloc(ITodoRepository todoRepository)
+      : _todoRepository = todoRepository,
+        super(TodoFormState.initial()) {
+    on<_Initialize>(_initialize);
     on<_TextChanged>(_textChanged, transformer: debounce(_duration));
     on<_ImportanceChanged>(_importanceChanged);
     on<_DeadlineChanged>(_deadlineChanged);
     on<_SavePressed>(_savePressed);
     on<_DeletePressed>(_deletePressed);
+  }
+
+  FutureOr<void> _initialize(
+    _Initialize event,
+    Emitter<TodoFormState> emit,
+  ) async {
+    if (event.todoId == null) return;
+    emit(state.copyWith(isLoading: true, isChanged: false));
+
+    final todo = await _todoRepository.get(event.todoId!, true);
+
+    emit(state.copyWith(todo: todo, isEditing: true, isLoading: false));
   }
 
   FutureOr<void> _textChanged(

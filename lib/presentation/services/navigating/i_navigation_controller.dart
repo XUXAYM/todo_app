@@ -1,11 +1,9 @@
 import 'dart:async';
 
-import '../../../domain/todo/models/todo.dart';
-
 abstract class INavigationController {
   FutureOr<void> toTodoList();
 
-  FutureOr<void> toTodoForm([Todo? todo]);
+  FutureOr<void> toTodoForm([String? todoId]);
 
   FutureOr<void> toUnknown();
 

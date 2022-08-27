@@ -183,7 +183,7 @@ class _EditTodoIconButton extends StatelessWidget {
         Icons.info_outline,
         color: Theme.of(context).paletteController?.labelTertiary,
       ),
-      onPressed: () => getIt<INavigationController>().toTodoForm(todo),
+      onPressed: () => getIt<INavigationController>().toTodoForm(todo.id),
     );
   }
 }
