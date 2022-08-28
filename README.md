@@ -1,16 +1,23 @@
 # todo_app
 
-A new Flutter project.
+Application for storing your todos.
 
-## Getting Started
+## Features list
 
-This project is a starting point for a Flutter application.
+* Adding "todo" notes;
+* Deleting "todo" notes;
+* Editing "todo" notes;
+* Online data synchronization between devices;
+* Works offline;
+* Dark/light theme support;
+* Interface internationalization (Russian, English).
 
-A few resources to get you started if this is your first Flutter project:
+## Light theme
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+![rsz_screenshot_1661704854](https://user-images.githubusercontent.com/42353842/187085180-0fa9effb-5a57-4a59-a006-8dd8b3df8f9f.png)
+![rsz_screenshot_1661704861](https://user-images.githubusercontent.com/42353842/187085320-28fffc23-44f3-4086-ba42-449177c1c271.png)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Dark theme
+
+![rsz_screenshot_1661704867](https://user-images.githubusercontent.com/42353842/187085324-04667afd-d104-4ebc-9f6e-51ba2b1fa9f4.png)
+![rsz_screenshot_1661704870](https://user-images.githubusercontent.com/42353842/187085337-e035c9cb-00dc-4c27-abe8-e34edbcc3fd6.png)
