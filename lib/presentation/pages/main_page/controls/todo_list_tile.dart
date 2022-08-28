@@ -14,10 +14,12 @@ import '../../../services/theming/assets_controller.dart';
 import '../../../services/theming/theme_extension.dart';
 
 class TodoListTile extends StatelessWidget {
+  final double elevation;
   final Todo todo;
 
   const TodoListTile({
     super.key,
+    this.elevation = 0.0,
     required this.todo,
   });
 

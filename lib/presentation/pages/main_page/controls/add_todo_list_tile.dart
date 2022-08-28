@@ -33,9 +33,12 @@ class _AddTodoListTileBody extends StatelessWidget {
           buildWhen: (previous, current) =>
               previous.canCreate != current.canCreate,
           builder: (context, state) {
-            return state.canCreate
-                ? const _AddTodoIconButton()
-                : const SizedBox.square(dimension: 48.0);
+            return AnimatedSwitcher(
+              duration: const Duration(milliseconds: 250),
+              child: state.canCreate
+                  ? const _AddTodoIconButton()
+                  : const SizedBox.square(dimension: 48.0),
+            );
           },
         ),
         const Expanded(child: _AddTodoTextField()),

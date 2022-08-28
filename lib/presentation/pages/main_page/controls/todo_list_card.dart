@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../../../../domain/todo/models/todo.dart';
+import 'animated_todo_list_tile.dart';
 import 'controls.dart';
-import 'dismissible_todo_list_tile.dart';
 
 class TodoListCard extends StatelessWidget {
   final Iterable<Todo> todos;
@@ -28,8 +28,8 @@ class TodoListCard extends StatelessWidget {
               if (index < todos.length) {
                 final todo = todos.elementAt(index);
 
-                return DismissibleTodoListTile(
-                  key: ObjectKey(todo),
+                return AnimatedTodoListTile(
+                  key: ValueKey(todo.id),
                   todo: todo,
                 );
               } else {

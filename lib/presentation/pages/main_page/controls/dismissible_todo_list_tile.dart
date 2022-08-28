@@ -19,7 +19,7 @@ class DismissibleTodoListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Dismissible(
-      key: ObjectKey(todo),
+      key: ValueKey(todo.id),
       secondaryBackground: const _DeleteTodoDismissibleBackground(),
       background: const _CheckTodoDismissibleBackground(),
       confirmDismiss: (direction) => _confirmDismiss(context, direction),
