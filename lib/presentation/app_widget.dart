@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:injectable/injectable.dart';
 
 import '../injection.dart';
 import 'services/navigating/state_dto.dart';
@@ -7,11 +8,17 @@ import 'services/s.dart';
 import 'services/theming/theme_controller.dart';
 
 class AppWidget extends StatelessWidget {
-  const AppWidget({super.key});
+  final String environment;
+
+  const AppWidget({
+    super.key,
+    required this.environment,
+  });
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
+      debugShowCheckedModeBanner: environment != Environment.prod,
       localizationsDelegates: [
         S.delegate,
         GlobalMaterialLocalizations.delegate,
@@ -25,9 +32,6 @@ class AppWidget extends StatelessWidget {
       routerDelegate: getIt<RouterDelegate<NavigationStateDto>>(),
       routeInformationParser:
           getIt<RouteInformationParser<NavigationStateDto>>(),
-      // initialRoute: Routes.mainPage,
-      // navigatorKey: NavigationController.key,
-      // onGenerateRoute: NavigationController.onGenerateRoute,
     );
   }
 }

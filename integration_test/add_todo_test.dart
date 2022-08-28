@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
@@ -30,12 +31,14 @@ void main() {
 
   testWidgets('Entering text and tap add icon creates new todo',
       (tester) async {
+    final FlutterExceptionHandler? originalOnError = FlutterError.onError;
+
     test_app.main();
+    await tester.pumpAndSettle();
+
+    FlutterError.onError = originalOnError;
 
     final String tStr = const Uuid().v1();
-
-    await tester.pump(const Duration(seconds: 5));
-    await tester.pumpTimes(200);
 
     expect(find.text(tStr), findsNothing);
 
@@ -57,8 +60,6 @@ void main() {
 
     expect(find.text(tStr, findRichText: true), findsOneWidget);
     testLogger.info('New todo tile founded');
-
-    waitSec(5);
   });
 }
 

@@ -9,7 +9,7 @@ import 'presentation/services/app_config.dart';
 
 void main() => runZonedGuarded(
       () async {
-        const environment = Environment.prod;
+        const environment = Environment.dev;
 
         await AppConfig.setup(environment);
 
