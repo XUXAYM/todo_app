@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../application/todo/todo_form/todo_form_bloc.dart';
-import '../../services/methods.dart';
-import '../../services/navigating/navigation_controller.dart';
+import '../../../injection.dart';
+import '../../services/navigating/i_navigation_controller.dart';
 import '../../services/theming/theme_extension.dart';
 import 'controls/controls.dart';
 
@@ -15,13 +15,13 @@ class TodoPageBody extends StatelessWidget {
     return BlocConsumer<TodoFormBloc, TodoFormState>(
       listenWhen: (_, current) => current.shouldPop,
       listener: (_, state) {
-        if (state.shouldPop) NavigationController.navigateBack();
+        if (state.shouldPop) getIt<INavigationController>().back();
       },
       builder: (context, state) {
         return WillPopScope(
           onWillPop: () async {
             if (state.isChanged) {
-              return await showExitAlertDialog(context) ?? false;
+              return await getIt<INavigationController>().showExitAlertDialog();
             } else {
               return true;
             }

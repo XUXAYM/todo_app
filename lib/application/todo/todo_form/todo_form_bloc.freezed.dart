@@ -18,6 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$TodoFormEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function(String? todoId) initialize,
     required TResult Function(String text) textChanged,
     required TResult Function(TodoImportance importance) importanceChanged,
     required TResult Function(DateTime? deadline) deadlineChanged,
@@ -27,6 +28,7 @@ mixin _$TodoFormEvent {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult Function(String? todoId)? initialize,
     TResult Function(String text)? textChanged,
     TResult Function(TodoImportance importance)? importanceChanged,
     TResult Function(DateTime? deadline)? deadlineChanged,
@@ -36,6 +38,7 @@ mixin _$TodoFormEvent {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String? todoId)? initialize,
     TResult Function(String text)? textChanged,
     TResult Function(TodoImportance importance)? importanceChanged,
     TResult Function(DateTime? deadline)? deadlineChanged,
@@ -46,6 +49,7 @@ mixin _$TodoFormEvent {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(_Initialize value) initialize,
     required TResult Function(_TextChanged value) textChanged,
     required TResult Function(_ImportanceChanged value) importanceChanged,
     required TResult Function(_DeadlineChanged value) deadlineChanged,
@@ -55,6 +59,7 @@ mixin _$TodoFormEvent {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(_Initialize value)? initialize,
     TResult Function(_TextChanged value)? textChanged,
     TResult Function(_ImportanceChanged value)? importanceChanged,
     TResult Function(_DeadlineChanged value)? deadlineChanged,
@@ -64,6 +69,7 @@ mixin _$TodoFormEvent {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Initialize value)? initialize,
     TResult Function(_TextChanged value)? textChanged,
     TResult Function(_ImportanceChanged value)? importanceChanged,
     TResult Function(_DeadlineChanged value)? deadlineChanged,
@@ -89,6 +95,164 @@ class _$TodoFormEventCopyWithImpl<$Res>
   final TodoFormEvent _value;
   // ignore: unused_field
   final $Res Function(TodoFormEvent) _then;
+}
+
+/// @nodoc
+abstract class _$$_InitializeCopyWith<$Res> {
+  factory _$$_InitializeCopyWith(
+          _$_Initialize value, $Res Function(_$_Initialize) then) =
+      __$$_InitializeCopyWithImpl<$Res>;
+  $Res call({String? todoId});
+}
+
+/// @nodoc
+class __$$_InitializeCopyWithImpl<$Res>
+    extends _$TodoFormEventCopyWithImpl<$Res>
+    implements _$$_InitializeCopyWith<$Res> {
+  __$$_InitializeCopyWithImpl(
+      _$_Initialize _value, $Res Function(_$_Initialize) _then)
+      : super(_value, (v) => _then(v as _$_Initialize));
+
+  @override
+  _$_Initialize get _value => super._value as _$_Initialize;
+
+  @override
+  $Res call({
+    Object? todoId = freezed,
+  }) {
+    return _then(_$_Initialize(
+      todoId == freezed
+          ? _value.todoId
+          : todoId // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$_Initialize implements _Initialize {
+  const _$_Initialize(this.todoId);
+
+  @override
+  final String? todoId;
+
+  @override
+  String toString() {
+    return 'TodoFormEvent.initialize(todoId: $todoId)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_Initialize &&
+            const DeepCollectionEquality().equals(other.todoId, todoId));
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(todoId));
+
+  @JsonKey(ignore: true)
+  @override
+  _$$_InitializeCopyWith<_$_Initialize> get copyWith =>
+      __$$_InitializeCopyWithImpl<_$_Initialize>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String? todoId) initialize,
+    required TResult Function(String text) textChanged,
+    required TResult Function(TodoImportance importance) importanceChanged,
+    required TResult Function(DateTime? deadline) deadlineChanged,
+    required TResult Function() savePressed,
+    required TResult Function() deletePressed,
+  }) {
+    return initialize(todoId);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function(String? todoId)? initialize,
+    TResult Function(String text)? textChanged,
+    TResult Function(TodoImportance importance)? importanceChanged,
+    TResult Function(DateTime? deadline)? deadlineChanged,
+    TResult Function()? savePressed,
+    TResult Function()? deletePressed,
+  }) {
+    return initialize?.call(todoId);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String? todoId)? initialize,
+    TResult Function(String text)? textChanged,
+    TResult Function(TodoImportance importance)? importanceChanged,
+    TResult Function(DateTime? deadline)? deadlineChanged,
+    TResult Function()? savePressed,
+    TResult Function()? deletePressed,
+    required TResult orElse(),
+  }) {
+    if (initialize != null) {
+      return initialize(todoId);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Initialize value) initialize,
+    required TResult Function(_TextChanged value) textChanged,
+    required TResult Function(_ImportanceChanged value) importanceChanged,
+    required TResult Function(_DeadlineChanged value) deadlineChanged,
+    required TResult Function(_SavePressed value) savePressed,
+    required TResult Function(_DeletePressed value) deletePressed,
+  }) {
+    return initialize(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(_Initialize value)? initialize,
+    TResult Function(_TextChanged value)? textChanged,
+    TResult Function(_ImportanceChanged value)? importanceChanged,
+    TResult Function(_DeadlineChanged value)? deadlineChanged,
+    TResult Function(_SavePressed value)? savePressed,
+    TResult Function(_DeletePressed value)? deletePressed,
+  }) {
+    return initialize?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Initialize value)? initialize,
+    TResult Function(_TextChanged value)? textChanged,
+    TResult Function(_ImportanceChanged value)? importanceChanged,
+    TResult Function(_DeadlineChanged value)? deadlineChanged,
+    TResult Function(_SavePressed value)? savePressed,
+    TResult Function(_DeletePressed value)? deletePressed,
+    required TResult orElse(),
+  }) {
+    if (initialize != null) {
+      return initialize(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _Initialize implements TodoFormEvent {
+  const factory _Initialize(final String? todoId) = _$_Initialize;
+
+  String? get todoId;
+  @JsonKey(ignore: true)
+  _$$_InitializeCopyWith<_$_Initialize> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -156,6 +320,7 @@ class _$_TextChanged implements _TextChanged {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function(String? todoId) initialize,
     required TResult Function(String text) textChanged,
     required TResult Function(TodoImportance importance) importanceChanged,
     required TResult Function(DateTime? deadline) deadlineChanged,
@@ -168,6 +333,7 @@ class _$_TextChanged implements _TextChanged {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult Function(String? todoId)? initialize,
     TResult Function(String text)? textChanged,
     TResult Function(TodoImportance importance)? importanceChanged,
     TResult Function(DateTime? deadline)? deadlineChanged,
@@ -180,6 +346,7 @@ class _$_TextChanged implements _TextChanged {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String? todoId)? initialize,
     TResult Function(String text)? textChanged,
     TResult Function(TodoImportance importance)? importanceChanged,
     TResult Function(DateTime? deadline)? deadlineChanged,
@@ -196,6 +363,7 @@ class _$_TextChanged implements _TextChanged {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(_Initialize value) initialize,
     required TResult Function(_TextChanged value) textChanged,
     required TResult Function(_ImportanceChanged value) importanceChanged,
     required TResult Function(_DeadlineChanged value) deadlineChanged,
@@ -208,6 +376,7 @@ class _$_TextChanged implements _TextChanged {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(_Initialize value)? initialize,
     TResult Function(_TextChanged value)? textChanged,
     TResult Function(_ImportanceChanged value)? importanceChanged,
     TResult Function(_DeadlineChanged value)? deadlineChanged,
@@ -220,6 +389,7 @@ class _$_TextChanged implements _TextChanged {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Initialize value)? initialize,
     TResult Function(_TextChanged value)? textChanged,
     TResult Function(_ImportanceChanged value)? importanceChanged,
     TResult Function(_DeadlineChanged value)? deadlineChanged,
@@ -310,6 +480,7 @@ class _$_ImportanceChanged implements _ImportanceChanged {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function(String? todoId) initialize,
     required TResult Function(String text) textChanged,
     required TResult Function(TodoImportance importance) importanceChanged,
     required TResult Function(DateTime? deadline) deadlineChanged,
@@ -322,6 +493,7 @@ class _$_ImportanceChanged implements _ImportanceChanged {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult Function(String? todoId)? initialize,
     TResult Function(String text)? textChanged,
     TResult Function(TodoImportance importance)? importanceChanged,
     TResult Function(DateTime? deadline)? deadlineChanged,
@@ -334,6 +506,7 @@ class _$_ImportanceChanged implements _ImportanceChanged {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String? todoId)? initialize,
     TResult Function(String text)? textChanged,
     TResult Function(TodoImportance importance)? importanceChanged,
     TResult Function(DateTime? deadline)? deadlineChanged,
@@ -350,6 +523,7 @@ class _$_ImportanceChanged implements _ImportanceChanged {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(_Initialize value) initialize,
     required TResult Function(_TextChanged value) textChanged,
     required TResult Function(_ImportanceChanged value) importanceChanged,
     required TResult Function(_DeadlineChanged value) deadlineChanged,
@@ -362,6 +536,7 @@ class _$_ImportanceChanged implements _ImportanceChanged {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(_Initialize value)? initialize,
     TResult Function(_TextChanged value)? textChanged,
     TResult Function(_ImportanceChanged value)? importanceChanged,
     TResult Function(_DeadlineChanged value)? deadlineChanged,
@@ -374,6 +549,7 @@ class _$_ImportanceChanged implements _ImportanceChanged {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Initialize value)? initialize,
     TResult Function(_TextChanged value)? textChanged,
     TResult Function(_ImportanceChanged value)? importanceChanged,
     TResult Function(_DeadlineChanged value)? deadlineChanged,
@@ -463,6 +639,7 @@ class _$_DeadlineChanged implements _DeadlineChanged {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function(String? todoId) initialize,
     required TResult Function(String text) textChanged,
     required TResult Function(TodoImportance importance) importanceChanged,
     required TResult Function(DateTime? deadline) deadlineChanged,
@@ -475,6 +652,7 @@ class _$_DeadlineChanged implements _DeadlineChanged {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult Function(String? todoId)? initialize,
     TResult Function(String text)? textChanged,
     TResult Function(TodoImportance importance)? importanceChanged,
     TResult Function(DateTime? deadline)? deadlineChanged,
@@ -487,6 +665,7 @@ class _$_DeadlineChanged implements _DeadlineChanged {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String? todoId)? initialize,
     TResult Function(String text)? textChanged,
     TResult Function(TodoImportance importance)? importanceChanged,
     TResult Function(DateTime? deadline)? deadlineChanged,
@@ -503,6 +682,7 @@ class _$_DeadlineChanged implements _DeadlineChanged {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(_Initialize value) initialize,
     required TResult Function(_TextChanged value) textChanged,
     required TResult Function(_ImportanceChanged value) importanceChanged,
     required TResult Function(_DeadlineChanged value) deadlineChanged,
@@ -515,6 +695,7 @@ class _$_DeadlineChanged implements _DeadlineChanged {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(_Initialize value)? initialize,
     TResult Function(_TextChanged value)? textChanged,
     TResult Function(_ImportanceChanged value)? importanceChanged,
     TResult Function(_DeadlineChanged value)? deadlineChanged,
@@ -527,6 +708,7 @@ class _$_DeadlineChanged implements _DeadlineChanged {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Initialize value)? initialize,
     TResult Function(_TextChanged value)? textChanged,
     TResult Function(_ImportanceChanged value)? importanceChanged,
     TResult Function(_DeadlineChanged value)? deadlineChanged,
@@ -591,6 +773,7 @@ class _$_SavePressed implements _SavePressed {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function(String? todoId) initialize,
     required TResult Function(String text) textChanged,
     required TResult Function(TodoImportance importance) importanceChanged,
     required TResult Function(DateTime? deadline) deadlineChanged,
@@ -603,6 +786,7 @@ class _$_SavePressed implements _SavePressed {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult Function(String? todoId)? initialize,
     TResult Function(String text)? textChanged,
     TResult Function(TodoImportance importance)? importanceChanged,
     TResult Function(DateTime? deadline)? deadlineChanged,
@@ -615,6 +799,7 @@ class _$_SavePressed implements _SavePressed {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String? todoId)? initialize,
     TResult Function(String text)? textChanged,
     TResult Function(TodoImportance importance)? importanceChanged,
     TResult Function(DateTime? deadline)? deadlineChanged,
@@ -631,6 +816,7 @@ class _$_SavePressed implements _SavePressed {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(_Initialize value) initialize,
     required TResult Function(_TextChanged value) textChanged,
     required TResult Function(_ImportanceChanged value) importanceChanged,
     required TResult Function(_DeadlineChanged value) deadlineChanged,
@@ -643,6 +829,7 @@ class _$_SavePressed implements _SavePressed {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(_Initialize value)? initialize,
     TResult Function(_TextChanged value)? textChanged,
     TResult Function(_ImportanceChanged value)? importanceChanged,
     TResult Function(_DeadlineChanged value)? deadlineChanged,
@@ -655,6 +842,7 @@ class _$_SavePressed implements _SavePressed {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Initialize value)? initialize,
     TResult Function(_TextChanged value)? textChanged,
     TResult Function(_ImportanceChanged value)? importanceChanged,
     TResult Function(_DeadlineChanged value)? deadlineChanged,
@@ -714,6 +902,7 @@ class _$_DeletePressed implements _DeletePressed {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function(String? todoId) initialize,
     required TResult Function(String text) textChanged,
     required TResult Function(TodoImportance importance) importanceChanged,
     required TResult Function(DateTime? deadline) deadlineChanged,
@@ -726,6 +915,7 @@ class _$_DeletePressed implements _DeletePressed {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult Function(String? todoId)? initialize,
     TResult Function(String text)? textChanged,
     TResult Function(TodoImportance importance)? importanceChanged,
     TResult Function(DateTime? deadline)? deadlineChanged,
@@ -738,6 +928,7 @@ class _$_DeletePressed implements _DeletePressed {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String? todoId)? initialize,
     TResult Function(String text)? textChanged,
     TResult Function(TodoImportance importance)? importanceChanged,
     TResult Function(DateTime? deadline)? deadlineChanged,
@@ -754,6 +945,7 @@ class _$_DeletePressed implements _DeletePressed {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(_Initialize value) initialize,
     required TResult Function(_TextChanged value) textChanged,
     required TResult Function(_ImportanceChanged value) importanceChanged,
     required TResult Function(_DeadlineChanged value) deadlineChanged,
@@ -766,6 +958,7 @@ class _$_DeletePressed implements _DeletePressed {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(_Initialize value)? initialize,
     TResult Function(_TextChanged value)? textChanged,
     TResult Function(_ImportanceChanged value)? importanceChanged,
     TResult Function(_DeadlineChanged value)? deadlineChanged,
@@ -778,6 +971,7 @@ class _$_DeletePressed implements _DeletePressed {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Initialize value)? initialize,
     TResult Function(_TextChanged value)? textChanged,
     TResult Function(_ImportanceChanged value)? importanceChanged,
     TResult Function(_DeadlineChanged value)? deadlineChanged,
@@ -940,7 +1134,7 @@ class __$$_TodoFormStateCopyWithImpl<$Res>
 class _$_TodoFormState implements _TodoFormState {
   const _$_TodoFormState(
       {required this.todo,
-      required this.isEditing,
+      this.isEditing = false,
       this.isLoading = false,
       this.isChanged = false,
       this.shouldPop = false});
@@ -948,6 +1142,7 @@ class _$_TodoFormState implements _TodoFormState {
   @override
   final Todo todo;
   @override
+  @JsonKey()
   final bool isEditing;
   @override
   @JsonKey()
@@ -994,7 +1189,7 @@ class _$_TodoFormState implements _TodoFormState {
 abstract class _TodoFormState implements TodoFormState {
   const factory _TodoFormState(
       {required final Todo todo,
-      required final bool isEditing,
+      final bool isEditing,
       final bool isLoading,
       final bool isChanged,
       final bool shouldPop}) = _$_TodoFormState;

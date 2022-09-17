@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:todo_app/injection.dart';
 
-import '../../../services/navigating/navigation_controller.dart';
+import '../../../services/navigating/i_navigation_controller.dart';
 
 class AddTodoFloatingActionButton extends StatelessWidget {
   const AddTodoFloatingActionButton({super.key});
@@ -9,7 +10,7 @@ class AddTodoFloatingActionButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return FloatingActionButton(
       child: const Icon(Icons.add),
-      onPressed: () => NavigationController.navigateTo(Routes.todoPage),
+      onPressed: () => getIt<INavigationController>().toTodoForm(),
     );
   }
 }

@@ -2,8 +2,8 @@ abstract class CachedException implements Exception {
   const CachedException();
 }
 
-class NoDataException extends CachedException {
-  const NoDataException();
+class StorageException extends CachedException {
+  const StorageException();
 }
 
 class NotFoundedException extends CachedException {

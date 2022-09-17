@@ -19,10 +19,11 @@ class DismissibleTodoListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Dismissible(
-      key: ObjectKey(todo),
+      key: ValueKey(todo.id),
       secondaryBackground: const _DeleteTodoDismissibleBackground(),
       background: const _CheckTodoDismissibleBackground(),
       confirmDismiss: (direction) => _confirmDismiss(context, direction),
+      onDismissed: (direction) => _onDismissed(context, direction),
       child: TodoListTile(todo: todo),
     );
   }
@@ -31,13 +32,20 @@ class DismissibleTodoListTile extends StatelessWidget {
     BuildContext context,
     DismissDirection direction,
   ) {
-    final bloc = context.read<TodoWatcherBloc>();
-    if (direction == DismissDirection.endToStart) {
-      bloc.add(TodoWatcherEvent.todoDeleted(todo));
-      return Future.value(true);
-    } else {
-      bloc.add(TodoWatcherEvent.todoToggled(todo));
+    if (direction == DismissDirection.startToEnd) {
+      context.read<TodoWatcherBloc>().add(TodoWatcherEvent.todoToggled(todo));
       return Future.value(false);
+    } else {
+      return Future.value(true);
+    }
+  }
+
+  void _onDismissed(
+    BuildContext context,
+    DismissDirection direction,
+  ) {
+    if (direction == DismissDirection.endToStart) {
+      context.read<TodoWatcherBloc>().add(TodoWatcherEvent.todoDeleted(todo));
     }
   }
 }
